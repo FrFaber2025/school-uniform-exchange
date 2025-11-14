@@ -1,6 +1,5 @@
 import { Link, useNavigate } from '@tanstack/react-router';
 import { useQueryClient } from '@tanstack/react-query';
-import { Sheet, SheetContent, SheetTrigger } from '@/components/ui/sheet';
 import { Menu, MessageSquare, Package, PlusCircle, Settings, BookOpen, UserPlus, LogIn } from 'lucide-react';
 import { useGetCallerUserProfile, useIsCallerAdmin } from '../hooks/useQueries';
 import { useState } from 'react';
@@ -150,13 +149,20 @@ export default function Header() {
 </button>
           )}
 
-          <Sheet open={mobileMenuOpen} onOpenChange={setMobileMenuOpen}>
-            <SheetTrigger asChild className="md:hidden">
-              <Button variant="ghost" size="icon">
-                <Menu className="h-5 w-5" />
-              </Button>
-            </SheetTrigger>
-            <SheetContent side="right">
+          <div className="md:hidden">
+  <button
+    onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
+    className="p-2 rounded border border-gray-300 hover:bg-muted"
+  >
+    <Menu className="h-5 w-5" />
+  </button>
+
+  {mobileMenuOpen && (
+    <div className="absolute right-0 top-14 bg-white shadow-lg p-4 rounded w-56">
+      {/* Mobile menu content here */}
+    </div>
+  )}
+</div>
               <nav className="flex flex-col gap-4 pt-8">
                 <NavLinks mobile onLinkClick={() => setMobileMenuOpen(false)} />
                 
@@ -188,8 +194,6 @@ export default function Header() {
                   </div>
                 )}
               </nav>
-            </SheetContent>
-          </Sheet>
         </div>
       </div>
     </header>
