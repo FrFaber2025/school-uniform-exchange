@@ -1,6 +1,5 @@
 import { useNavigate } from '@tanstack/react-router';
 import { useGetListings } from '../hooks/useQueries';
-import { useInternetIdentity } from '../hooks/useInternetIdentity';
 import { Button } from '@/components/ui/button';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import ListingCard from '../components/ListingCard';
@@ -9,8 +8,7 @@ import { useMemo } from 'react';
 
 export default function MyListingsPage() {
   const navigate = useNavigate();
-  const { identity } = useInternetIdentity();
-  const { data: allListings = [], isLoading } = useGetListings();
+    const { data: allListings = [], isLoading } = useGetListings();
 
   const myListings = useMemo(() => {
     if (!identity) return [];
