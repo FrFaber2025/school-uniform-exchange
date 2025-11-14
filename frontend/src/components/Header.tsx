@@ -1,12 +1,15 @@
 import { Link, useNavigate } from '@tanstack/react-router';
+import { useInternetIdentity } from '../hooks/useInternetIdentity';
 import { useQueryClient } from '@tanstack/react-query';
+import { Button } from '@/components/ui/button';
 import { Sheet, SheetContent, SheetTrigger } from '@/components/ui/sheet';
 import { Menu, MessageSquare, Package, PlusCircle, Settings, BookOpen, UserPlus, LogIn } from 'lucide-react';
 import { useGetCallerUserProfile, useIsCallerAdmin } from '../hooks/useQueries';
 import { useState } from 'react';
 
 export default function Header() {
-    const queryClient = useQueryClient();
+  const { login, clear, loginStatus, identity } = useInternetIdentity();
+  const queryClient = useQueryClient();
   const navigate = useNavigate();
   const { data: userProfile } = useGetCallerUserProfile();
   const { data: isAdmin } = useIsCallerAdmin();
@@ -125,7 +128,10 @@ export default function Header() {
                 <UserPlus className="mr-1.5 h-4 w-4" />
                 <span className="hidden sm:inline">Register as a New User</span>
                 <span className="sm:hidden">Register</span>
-              <button className="bg-burgundy text-white px-4 py-2 rounded">Login</button>
+              </Button>
+              
+              {/* Login Button */}
+              <Button 
                 onClick={() => handleAuth(false)} 
                 disabled={disabled}
                 variant="outline"
@@ -139,14 +145,24 @@ export default function Header() {
                 <span className="sm:hidden">
                   {loginStatus === 'logging-in' ? 'Wait...' : 'Login'}
                 </span>
-              <button className="bg-burgundy text-white px-4 py-2 rounded">Login</button>
+              </Button>
+            </>
+          ) : (
+            <Button 
               onClick={() => handleAuth(false)} 
               disabled={disabled} 
               variant="outline"
               size="sm"
             >
               Logout
-            <button className="bg-burgundy text-white px-4 py-2 rounded">Login</button>
+            </Button>
+          )}
+
+          <Sheet open={mobileMenuOpen} onOpenChange={setMobileMenuOpen}>
+            <SheetTrigger asChild className="md:hidden">
+              <Button variant="ghost" size="icon">
+                <Menu className="h-5 w-5" />
+              </Button>
             </SheetTrigger>
             <SheetContent side="right">
               <nav className="flex flex-col gap-4 pt-8">
@@ -155,13 +171,37 @@ export default function Header() {
                 {!isAuthenticated && (
                   <div className="mt-4 flex flex-col gap-3 border-t pt-4">
                     <p className="text-sm font-medium text-muted-foreground">Get Started</p>
-                    <button className="bg-burgundy text-white px-4 py-2 rounded">Login</button>
-                    <button className="bg-burgundy text-white px-4 py-2 rounded">Login</button>
+                    <Button 
+                      onClick={() => {
+                        setMobileMenuOpen(false);
+                        handleAuth(true);
+                      }} 
+                      disabled={disabled}
+                      variant="outline"
+                      className="w-full font-semibold hover:bg-muted"
+                    >
+                      <UserPlus className="mr-2 h-4 w-4" />
+                      Register as a New User
+                    </Button>
+                    <Button 
+                      onClick={() => {
+                        setMobileMenuOpen(false);
+                        handleAuth(false);
+                      }} 
+                      disabled={disabled}
+                      variant="outline"
+                      className="w-full font-semibold hover:bg-muted"
+                    >
+                      <LogIn className="mr-2 h-4 w-4" />
+                      {loginStatus === 'logging-in' ? 'Logging in...' : 'Login'}
+                    </Button>
                   </div>
                 )}
               </nav>
             </SheetContent>
           </Sheet>
         </div>
+      </div>
     </header>
   );
+}
