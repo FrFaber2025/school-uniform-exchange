@@ -1,5 +1,4 @@
 import { Link, useNavigate } from '@tanstack/react-router';
-import { useInternetIdentity } from '../hooks/useInternetIdentity';
 import { useQueryClient } from '@tanstack/react-query';
 import { Button } from '@/components/ui/button';
 import { Sheet, SheetContent, SheetTrigger } from '@/components/ui/sheet';
@@ -8,7 +7,6 @@ import { useGetCallerUserProfile, useIsCallerAdmin } from '../hooks/useQueries';
 import { useState } from 'react';
 
 export default function Header() {
-  const { login, clear, loginStatus, identity } = useInternetIdentity();
   const queryClient = useQueryClient();
   const navigate = useNavigate();
   const { data: userProfile } = useGetCallerUserProfile();
