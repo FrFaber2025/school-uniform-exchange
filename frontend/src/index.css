@@ -1,0 +1,125 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    /* Navy and burgundy school uniform-inspired palette */
+    --background: oklch(98% 0.01 240);
+    --foreground: oklch(20% 0.02 240);
+    --card: oklch(100% 0 0);
+    --card-foreground: oklch(20% 0.02 240);
+    --popover: oklch(100% 0 0);
+    --popover-foreground: oklch(20% 0.02 240);
+    
+    /* Primary: Deep navy blue */
+    --primary: oklch(35% 0.08 250);
+    --primary-foreground: oklch(98% 0.01 240);
+    
+    /* Secondary: Warm burgundy */
+    --secondary: oklch(45% 0.12 15);
+    --secondary-foreground: oklch(98% 0.01 240);
+    
+    /* Accent: Lighter burgundy for highlights */
+    --accent: oklch(55% 0.10 15);
+    --accent-foreground: oklch(98% 0.01 240);
+    
+    /* Muted: Soft gray-blue */
+    --muted: oklch(95% 0.01 240);
+    --muted-foreground: oklch(50% 0.02 240);
+    
+    /* Success: Darker, more saturated green for better contrast in light mode */
+    --success: oklch(48% 0.18 145);
+    --success-foreground: oklch(100% 0 0);
+    
+    /* Destructive: Red for warnings and errors */
+    --destructive: oklch(55% 0.20 25);
+    --destructive-foreground: oklch(98% 0.01 240);
+    
+    /* Border and input */
+    --border: oklch(88% 0.01 240);
+    --input: oklch(88% 0.01 240);
+    --ring: oklch(35% 0.08 250);
+    
+    /* Chart colors */
+    --chart-1: oklch(60% 0.15 250);
+    --chart-2: oklch(65% 0.12 15);
+    --chart-3: oklch(70% 0.10 145);
+    --chart-4: oklch(75% 0.08 60);
+    --chart-5: oklch(55% 0.12 300);
+    
+    --radius: 0.5rem;
+  }
+
+  .dark {
+    --background: oklch(15% 0.02 240);
+    --foreground: oklch(95% 0.01 240);
+    --card: oklch(18% 0.02 240);
+    --card-foreground: oklch(95% 0.01 240);
+    --popover: oklch(18% 0.02 240);
+    --popover-foreground: oklch(95% 0.01 240);
+    
+    /* Primary: Lighter navy for dark mode */
+    --primary: oklch(65% 0.10 250);
+    --primary-foreground: oklch(15% 0.02 240);
+    
+    /* Secondary: Lighter burgundy for dark mode */
+    --secondary: oklch(55% 0.12 15);
+    --secondary-foreground: oklch(15% 0.02 240);
+    
+    /* Accent: Brighter burgundy for dark mode */
+    --accent: oklch(65% 0.12 15);
+    --accent-foreground: oklch(15% 0.02 240);
+    
+    /* Muted: Dark gray-blue */
+    --muted: oklch(25% 0.02 240);
+    --muted-foreground: oklch(70% 0.02 240);
+    
+    /* Success: Brighter, more saturated green for dark mode with better contrast */
+    --success: oklch(60% 0.20 145);
+    --success-foreground: oklch(10% 0 0);
+    
+    /* Destructive: Brighter red for dark mode */
+    --destructive: oklch(65% 0.20 25);
+    --destructive-foreground: oklch(15% 0.02 240);
+    
+    /* Border and input */
+    --border: oklch(30% 0.02 240);
+    --input: oklch(30% 0.02 240);
+    --ring: oklch(65% 0.10 250);
+    
+    /* Chart colors for dark mode */
+    --chart-1: oklch(70% 0.15 250);
+    --chart-2: oklch(65% 0.12 15);
+    --chart-3: oklch(70% 0.10 145);
+    --chart-4: oklch(75% 0.08 60);
+    --chart-5: oklch(65% 0.12 300);
+  }
+}
+
+@layer base {
+  * {
+    @apply border-border;
+  }
+  body {
+    @apply bg-background text-foreground;
+  }
+}
+
+@layer utilities {
+  .text-shadow-strong {
+    text-shadow: 2px 2px 8px rgba(0, 0, 0, 0.9);
+  }
+  
+  .text-shadow-medium {
+    text-shadow: 1px 1px 6px rgba(0, 0, 0, 0.8);
+  }
+  
+  .text-shadow-light {
+    text-shadow: 1px 1px 4px rgba(0, 0, 0, 0.6);
+  }
+  
+  .button-z-index {
+    z-index: 10;
+  }
+}
