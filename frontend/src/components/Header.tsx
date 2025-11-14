@@ -163,7 +163,5 @@ export default function Header() {
             </SheetContent>
           </Sheet>
         </div>
-      </div>
     </header>
   );
-}
