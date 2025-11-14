@@ -1,5 +1,4 @@
 import { useNavigate } from '@tanstack/react-router';
-import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { XCircle } from 'lucide-react';
 
@@ -20,10 +19,18 @@ export default function PaymentFailurePage() {
             Your payment was not completed. No charges have been made to your account.
           </p>
           <div className="flex flex-col gap-3">
-            <Button onClick={() => navigate({ to: '/browse' })}>Back to Browse</Button>
-            <Button variant="outline" onClick={() => window.history.back()}>
-              Try Again
-            </Button>
+            <button
+  onClick={() => navigate({ to: '/browse' })}
+  className="border border-gray-300 rounded px-3 py-1 text-sm font-semibold hover:bg-muted"
+>
+  Back to Browse
+</button>
+            <button
+  onClick={() => window.history.back()}
+  className="border border-gray-300 rounded px-3 py-1 text-sm font-semibold hover:bg-muted"
+>
+  Try Again
+</button>
           </div>
         </CardContent>
       </Card>
