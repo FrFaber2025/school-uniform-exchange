@@ -1,6 +1,5 @@
 import { useParams, useNavigate } from '@tanstack/react-router';
 import { useGetListing, useDeleteListing, useGetTransactionsForUser, useGetUserProfile, useCreateCheckoutSession, useGetAverageRatingForSeller, useGetReviewCountForSeller, useGetRecentReviewsForSeller, useGetTermsAndConditions, useHasAcceptedTermsAndConditions, useAcceptTermsAndConditions } from '../hooks/useQueries';
-import { useInternetIdentity } from '../hooks/useInternetIdentity';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
@@ -68,8 +67,7 @@ export default function ListingDetailPage() {
   const { listingId } = useParams({ from: '/listing/$listingId' });
   const navigate = useNavigate();
   const { data: listing, isLoading } = useGetListing(listingId);
-  const { identity } = useInternetIdentity();
-  const deleteListing = useDeleteListing();
+    const deleteListing = useDeleteListing();
   const { data: transactions = [] } = useGetTransactionsForUser();
   const { data: sellerProfile } = useGetUserProfile(listing?.seller || null);
   const { data: averageRating } = useGetAverageRatingForSeller(listing?.seller || null);

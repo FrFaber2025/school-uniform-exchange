@@ -1,6 +1,5 @@
 import { useState, useMemo, useEffect } from 'react';
 import { useSearch } from '@tanstack/react-router';
-import { useInternetIdentity } from '../hooks/useInternetIdentity';
 import { useGetMessagesForUser, useSendMessage, useGetListings, useGetTransactionsForUser, useUpdateTransactionStatus } from '../hooks/useQueries';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
@@ -15,8 +14,7 @@ import type { Message, Listing, Transaction } from '../backend';
 import { TransactionStatus } from '../backend';
 
 export default function MessagesPage() {
-  const { identity } = useInternetIdentity();
-  const search = useSearch({ from: '/messages' });
+   const search = useSearch({ from: '/messages' });
   const preselectedListingId = (search as any)?.listingId;
   
   const { data: messages = [], isLoading } = useGetMessagesForUser();
