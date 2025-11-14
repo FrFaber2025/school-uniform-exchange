@@ -1,6 +1,5 @@
 import { Link, useNavigate } from '@tanstack/react-router';
 import { useQueryClient } from '@tanstack/react-query';
-import { Button } from '@/components/ui/button';
 import { Sheet, SheetContent, SheetTrigger } from '@/components/ui/sheet';
 import { Menu, MessageSquare, Package, PlusCircle, Settings, BookOpen, UserPlus, LogIn } from 'lucide-react';
 import { useGetCallerUserProfile, useIsCallerAdmin } from '../hooks/useQueries';
@@ -116,44 +115,39 @@ export default function Header() {
           {!isAuthenticated ? (
             <>
               {/* Registration Button - Matching Login button style exactly */}
-              <Button 
-                onClick={() => handleAuth(true)} 
-                disabled={disabled}
-                variant="outline"
-                size="sm"
-                className="font-semibold hover:bg-muted"
-              >
-                <UserPlus className="mr-1.5 h-4 w-4" />
-                <span className="hidden sm:inline">Register as a New User</span>
-                <span className="sm:hidden">Register</span>
-              </Button>
+              <button
+  onClick={() => handleAuth(true)}
+  disabled={disabled}
+  className="font-semibold hover:bg-muted border border-gray-300 rounded px-3 py-1 text-sm flex items-center"
+>
+  <UserPlus className="mr-1.5 h-4 w-4" />
+  <span className="hidden sm:inline">Register as a New User</span>
+  <span className="sm:hidden">Register</span>
+</button>
               
               {/* Login Button */}
-              <Button 
-                onClick={() => handleAuth(false)} 
-                disabled={disabled}
-                variant="outline"
-                size="sm"
-                className="font-semibold hover:bg-muted"
-              >
-                <LogIn className="mr-1.5 h-4 w-4" />
-                <span className="hidden sm:inline">
-                  {loginStatus === 'logging-in' ? 'Logging in...' : 'Login'}
-                </span>
-                <span className="sm:hidden">
-                  {loginStatus === 'logging-in' ? 'Wait...' : 'Login'}
-                </span>
-              </Button>
+              <button
+  onClick={() => handleAuth(false)}
+  disabled={disabled}
+  className="font-semibold hover:bg-muted border border-gray-300 rounded px-3 py-1 text-sm flex items-center"
+>
+  <LogIn className="mr-1.5 h-4 w-4" />
+  <span className="hidden sm:inline">
+    {loginStatus === 'logging-in' ? 'Logging in...' : 'Login'}
+  </span>
+  <span className="sm:hidden">
+    {loginStatus === 'logging-in' ? 'Wait...' : 'Login'}
+  </span>
+</button>
             </>
           ) : (
-            <Button 
-              onClick={() => handleAuth(false)} 
-              disabled={disabled} 
-              variant="outline"
-              size="sm"
-            >
-              Logout
-            </Button>
+            <button
+  onClick={() => handleAuth(false)}
+  disabled={disabled}
+  className="border border-gray-300 rounded px-3 py-1 text-sm font-semibold hover:bg-muted"
+>
+  Logout
+</button>
           )}
 
           <Sheet open={mobileMenuOpen} onOpenChange={setMobileMenuOpen}>
@@ -169,30 +163,28 @@ export default function Header() {
                 {!isAuthenticated && (
                   <div className="mt-4 flex flex-col gap-3 border-t pt-4">
                     <p className="text-sm font-medium text-muted-foreground">Get Started</p>
-                    <Button 
-                      onClick={() => {
-                        setMobileMenuOpen(false);
-                        handleAuth(true);
-                      }} 
-                      disabled={disabled}
-                      variant="outline"
-                      className="w-full font-semibold hover:bg-muted"
-                    >
-                      <UserPlus className="mr-2 h-4 w-4" />
-                      Register as a New User
-                    </Button>
-                    <Button 
-                      onClick={() => {
-                        setMobileMenuOpen(false);
-                        handleAuth(false);
-                      }} 
-                      disabled={disabled}
-                      variant="outline"
-                      className="w-full font-semibold hover:bg-muted"
-                    >
-                      <LogIn className="mr-2 h-4 w-4" />
-                      {loginStatus === 'logging-in' ? 'Logging in...' : 'Login'}
-                    </Button>
+                    <button
+  onClick={() => {
+    setMobileMenuOpen(false);
+    handleAuth(true);
+  }}
+  disabled={disabled}
+  className="w-full font-semibold hover:bg-muted border border-gray-300 rounded px-3 py-1 flex items-center"
+>
+  <UserPlus className="mr-2 h-4 w-4" />
+  Register as a New User
+</button>
+                    <button
+  onClick={() => {
+    setMobileMenuOpen(false);
+    handleAuth(false);
+  }}
+  disabled={disabled}
+  className="w-full font-semibold hover:bg-muted border border-gray-300 rounded px-3 py-1 flex items-center"
+>
+  <LogIn className="mr-2 h-4 w-4" />
+  {loginStatus === 'logging-in' ? 'Logging in...' : 'Login'}
+</button>
                   </div>
                 )}
               </nav>
