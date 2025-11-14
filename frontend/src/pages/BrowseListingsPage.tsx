@@ -5,7 +5,6 @@ import { Input } from '@/components/ui/input';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { Label } from '@/components/ui/label';
 import { Search } from 'lucide-react';
-import { Gender } from '../backend';
 
 const itemTypeOptions = [
   { value: 'trousers', label: 'Trousers' },
