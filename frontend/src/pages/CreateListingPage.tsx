@@ -13,8 +13,6 @@ import ImageUpload from '../components/ImageUpload';
 import TermsAcceptanceCheckbox from '../components/TermsAcceptanceCheckbox';
 import { toast } from 'sonner';
 import { ArrowLeft, AlertCircle, Lightbulb, TrendingUp, Calculator, BookOpen, X, Package } from 'lucide-react';
-import type { Listing, ItemType, SizeMeasurements } from '../backend';
-import { Condition, Gender, ExternalBlob } from '../backend';
 
 const itemTypeOptions: { value: string; label: string; type: ItemType }[] = [
   { value: 'trousers', label: 'Trousers', type: { __kind__: 'trousers', trousers: null } },
