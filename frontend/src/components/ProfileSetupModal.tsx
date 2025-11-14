@@ -1,5 +1,4 @@
 import { useState } from 'react';
-import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Textarea } from '@/components/ui/textarea';
@@ -83,9 +82,13 @@ export default function ProfileSetupModal({ open, onOpenChange }: ProfileSetupMo
               required
             />
           </div>
-          <Button type="submit" className="w-full" disabled={saveProfile.isPending}>
-            {saveProfile.isPending ? 'Creating Profile...' : 'Complete Profile'}
-          </Button>
+          <button
+  type="submit"
+  disabled={saveProfile.isPending}
+  className="w-full bg-burgundy text-white font-semibold py-2 px-4 rounded hover:bg-burgundy/90"
+>
+  {saveProfile.isPending ? 'Creating Profile...' : 'Complete Profile'}
+</button>
         </form>
       </DialogContent>
     </Dialog>
