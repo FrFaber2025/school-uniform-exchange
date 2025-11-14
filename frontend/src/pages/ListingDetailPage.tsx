@@ -10,8 +10,6 @@ import { Dialog, DialogContent, DialogDescription, DialogFooter, DialogHeader, D
 import { MessageSquare, Edit, Trash2, ArrowLeft, ShoppingCart, Shield, Mail, MapPin, Package, CheckCircle, Clock } from 'lucide-react';
 import { useState, useEffect, useMemo } from 'react';
 import { toast } from 'sonner';
-import type { Condition, ItemType, Gender, ShoppingItem } from '../backend';
-import { TransactionStatus } from '../backend';
 import SellerRating from '../components/SellerRating';
 import ReviewsList from '../components/ReviewsList';
 import TermsAcceptanceCheckbox from '../components/TermsAcceptanceCheckbox';
