@@ -10,8 +10,6 @@ import { Alert, AlertDescription, AlertTitle } from '@/components/ui/alert';
 import { Badge } from '@/components/ui/badge';
 import { Send, Shield, Lock, MessageSquare, Package, CheckCircle, Clock } from 'lucide-react';
 import { toast } from 'sonner';
-import type { Message, Listing, Transaction } from '../backend';
-import { TransactionStatus } from '../backend';
 
 export default function MessagesPage() {
    const search = useSearch({ from: '/messages' });
