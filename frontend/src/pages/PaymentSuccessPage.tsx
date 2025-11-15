@@ -100,14 +100,7 @@ export default function PaymentSuccessPage() {
       className="w-full bg-burgundy text-white font-semibold py-2 px-4 rounded hover:bg-burgundy/90"
     >
       Rate Your Experience
-    </button>
-  )}
-            
-          </div>
-        </div>
-      </div>
-
-      {selectedTransaction && (
+    {selectedTransaction && (
         <ReviewSubmissionModal
           open={showReviewModal}
           onOpenChange={setShowReviewModal}
