@@ -34,79 +34,50 @@ export default function PaymentSuccessPage() {
         </div>
         <h2 className="text-2xl font-semibold">Payment Successful!</h2>
       </div>
+
       <div className="mt-4 space-y-4 text-center">
         <p className="text-gray-600">
-          Your payment has been processed successfully. The seller's contact details are now available, and you can message them directly.
+          Your payment has been processed successfully. You can now message the seller or continue shopping.
         </p>
+
         <div className="space-y-2">
           <button
-  onClick={() => navigate({ to: '/messages' })}
-  className="border border-gray-300 rounded px-3 py-1 text-sm font-semibold hover:bg-muted"
->
-  View Messages
-<button
-  onClick={() => navigate({ to: '/browse' })}
-  className="border border-gray-300 rounded px-3 py-1 text-sm font-semibold hover:bg-muted"
->
-  Continue Shopping
-</button>
+            onClick={() => navigate({ to: '/messages' })}
+            className="border border-gray-300 rounded px-3 py-1 text-sm font-semibold hover:bg-muted w-full"
+          >
+            View Messages
+          </button>
+          <button
+            onClick={() => navigate({ to: '/browse' })}
+            className="border border-gray-300 rounded px-3 py-1 text-sm font-semibold hover:bg-muted w-full"
+          >
+            Continue Shopping
+          </button>
 
-{selectedTransaction && (
-  <ReviewSubmissionModal
-    open={showReviewModal}
-    onOpenChange={setShowReviewModal}
-    seller={selectedTransaction.seller}
-    transactionId={selectedTransaction.id}
-    onSuccess={() => setShowReviewModal(false)}
-  />
-)}
+          {recentTransaction && (
+            <button
+              onClick={() => {
+                setSelectedTransaction(recentTransaction);
+                setShowReviewModal(true);
+              }}
+              className="w-full bg-burgundy text-white font-semibold py-2 px-4 rounded hover:bg-burgundy/90"
+            >
+              Rate Your Experience
+            </button>
+          )}
+        </div>
+      </div>
+    </div>
 
-{recentTransaction && (
-  <button
-    onClick={() => {
-      setSelectedTransaction(recentTransaction);
-      setShowReviewModal(true);
-    }}
-    className="w-full bg-burgundy text-white font-semibold py-2 px-4 rounded hover:bg-burgundy/90"
-  >
-    Rate Your Experience
-  </button>
-)}
-<div className="space-y-2">
-  <button
-    onClick={() => navigate({ to: '/messages' })}
-    className="border border-gray-300 rounded px-3 py-1 text-sm font-semibold hover:bg-muted"
-  >
-    View Messages
-  </button>
-  <button
-    onClick={() => navigate({ to: '/browse' })}
-    className="border border-gray-300 rounded px-3 py-1 text-sm font-semibold hover:bg-muted"
-  >
-    Continue Shopping
-  </button>
-
-  {recentTransaction && (
-    <button
-      onClick={() => {
-        setSelectedTransaction(recentTransaction);
-        setShowReviewModal(true);
-      }}
-      className="w-full bg-burgundy text-white font-semibold py-2 px-4 rounded hover:bg-burgundy/90"
-    >
-      Rate Your Experience
-    </button>
-  )}
-
-  {selectedTransaction && (
-    <ReviewSubmissionModal
-      open={showReviewModal}
-      onOpenChange={setShowReviewModal}
-      seller={selectedTransaction.seller}
-      transactionId={selectedTransaction.id}
-      onSuccess={() => setShowReviewModal(false)}
-    />
-  )}
-</div>
+    {selectedTransaction && (
+      <ReviewSubmissionModal
+        open={showReviewModal}
+        onOpenChange={setShowReviewModal}
+        seller={selectedTransaction.seller}
+        transactionId={selectedTransaction.id}
+        onSuccess={() => setShowReviewModal(false)}
+      />
+    )}
+  </div>
 );
 }
