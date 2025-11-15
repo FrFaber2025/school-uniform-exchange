@@ -1,6 +1,5 @@
 import { useEffect, useState } from 'react';
 import { useNavigate } from '@tanstack/react-router';
-import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { CheckCircle } from 'lucide-react';
 import { useGetTransactionsForUser } from '../hooks/useQueries';
@@ -43,30 +42,30 @@ export default function PaymentSuccessPage() {
             Your payment has been processed successfully. The seller's contact details are now available, and you can message them directly.
           </p>
           <div className="space-y-2">
-            <Button 
-              className="w-full" 
-              onClick={() => navigate({ to: '/messages' })}
-            >
+            <button
+  onClick={() => navigate({ to: '/messages' })}
+  className="border border-gray-300 rounded px-3 py-1 text-sm font-semibold hover:bg-muted"
+>
+  Back to Browse
+</button>
               View Messages
             </Button>
-            <Button 
-              variant="outline" 
-              className="w-full" 
-              onClick={() => navigate({ to: '/browse' })}
-            >
-              Continue Shopping
-            </Button>
+            <button
+  onClick={() => navigate({ to: '/browse' })}
+  className="border border-gray-300 rounded px-3 py-1 text-sm font-semibold hover:bg-muted"
+>
+  Continue Shopping
+</button>
             {recentTransaction && (
-              <Button 
-                variant="secondary" 
-                className="w-full" 
-                onClick={() => {
-                  setSelectedTransaction(recentTransaction);
-                  setShowReviewModal(true);
-                }}
-              >
-                Rate Your Experience
-              </Button>
+              <button
+  onClick={() => {
+    setSelectedTransaction(recentTransaction);
+    setShowReviewModal(true);
+  }}
+  className="w-full bg-burgundy text-white font-semibold py-2 px-4 rounded hover:bg-burgundy/90"
+>
+  Rate Your Experience
+</button>
             )}
           </div>
         </CardContent>
