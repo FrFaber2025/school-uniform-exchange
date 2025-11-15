@@ -69,6 +69,10 @@ export default function PaymentSuccessPage() {
   );
 }
 ;
+  <button
+  onClick={() => navigate({ to: '/messages' })}
+  className="border border-gray-300 rounded px-3 py-1 text-sm font-semibold hover:bg-muted"
+>
   View Messages
 </button>
             <button
