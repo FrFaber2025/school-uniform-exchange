@@ -1,5 +1,4 @@
 import { useState } from 'react';
-import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Textarea } from '@/components/ui/textarea';
 import { useSaveCallerUserProfile } from '../hooks/useQueries';
@@ -52,24 +51,23 @@ export default function ProfileSetupModal({ open, onOpenChange }: ProfileSetupMo
         <form onSubmit={handleSubmit} className="space-y-4">
           <div className="space-y-2">
             <Label htmlFor="name">Full Name</Label>
-            <Input
-              id="name"
-              value={name}
-              onChange={(e) => setName(e.target.value)}
-              placeholder="Enter your full name"
-              required
-            />
+            <input
+  type="text"
+  placeholder="Enter your name"
+  value={name}
+  onChange={(e) => setName(e.target.value)}
+  className="border border-gray-300 rounded px-2 py-1 w-full"
+/>
           </div>
           <div className="space-y-2">
             <Label htmlFor="email">Email Address</Label>
-            <Input
-              id="email"
-              type="email"
-              value={email}
-              onChange={(e) => setEmail(e.target.value)}
-              placeholder="your.email@example.com"
-              required
-            />
+            <input
+  type="text"
+  placeholder="Enter your name"
+  value={name}
+  onChange={(e) => setName(e.target.value)}
+  className="border border-gray-300 rounded px-2 py-1 w-full"
+/>
           </div>
           <div className="space-y-2">
             <Label htmlFor="address">Postal Address</Label>
