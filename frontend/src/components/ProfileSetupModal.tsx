@@ -1,5 +1,4 @@
 import { useState } from 'react';
-import { Label } from '@/components/ui/label';
 import { Textarea } from '@/components/ui/textarea';
 import { useSaveCallerUserProfile } from '../hooks/useQueries';
 import { toast } from 'sonner';
@@ -50,7 +49,7 @@ export default function ProfileSetupModal({ open, onOpenChange }: ProfileSetupMo
         </DialogHeader>
         <form onSubmit={handleSubmit} className="space-y-4">
           <div className="space-y-2">
-            <Label htmlFor="name">Full Name</Label>
+            <label htmlFor="name" className="block text-sm font-medium text-gray-700 mb-1">Full Name</label>
             <input
   type="text"
   placeholder="Enter your name"
@@ -60,7 +59,7 @@ export default function ProfileSetupModal({ open, onOpenChange }: ProfileSetupMo
 />
           </div>
           <div className="space-y-2">
-            <Label htmlFor="email">Email Address</Label>
+            <label htmlFor="email" className="block text-sm font-medium text-gray-700 mb-1">Email Address</label>
             <input
   type="text"
   placeholder="Enter your name"
@@ -70,7 +69,7 @@ export default function ProfileSetupModal({ open, onOpenChange }: ProfileSetupMo
 />
           </div>
           <div className="space-y-2">
-            <Label htmlFor="address">Postal Address</Label>
+            <label htmlFor="address" className="block text-sm font-medium text-gray-700 mb-1">Postal Address</label>
             <Textarea
               id="address"
               value={address}
