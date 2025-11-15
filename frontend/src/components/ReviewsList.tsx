@@ -1,6 +1,11 @@
-import { Card, CardContent } from '@/components/ui/card';
-import { Star } from 'lucide-react';
-import type { Review } from '../backend';
+import React from "react";
+
+interface Review {
+  rating: number;
+  comment: string;
+  createdAt: string | number | Date;
+  buyerName?: string;
+}
 
 interface ReviewsListProps {
   reviews: Review[];
@@ -8,42 +13,42 @@ interface ReviewsListProps {
 }
 
 export default function ReviewsList({ reviews, maxReviews }: ReviewsListProps) {
-  const displayReviews = maxReviews ? reviews.slice(0, maxReviews) : reviews;
+  const displayed = maxReviews ? reviews.slice(0, maxReviews) : reviews;
 
-  if (reviews.length === 0) {
-    return (
-      <div className="rounded-lg border bg-muted/30 p-8 text-center">
-        <p className="text-muted-foreground">No reviews yet</p>
-      </div>
-    );
-  }
+  const renderStars = (rating: number) =>
+    Array.from({ length: 5 }, (_, i) => (
+      <span key={i} className={i < rating ? "text-yellow-500" : "text-gray-300"}>
+        ★
+      </span>
+    ));
 
   return (
     <div className="space-y-4">
-      {displayReviews.map((review) => (
-        <Card key={review.id}>
-          <CardContent className="pt-6">
-            <div className="mb-2 flex items-center gap-2">
-              <div className="flex">
-                {[1, 2, 3, 4, 5].map((star) => (
-                  <Star
-                    key={star}
-                    className={`h-4 w-4 ${
-                      star <= Number(review.rating)
-                        ? 'fill-yellow-400 text-yellow-400'
-                        : 'text-muted-foreground'
-                    }`}
-                  />
-                ))}
+      {displayed.length === 0 ? (
+        <p className="text-gray-600">No reviews yet.</p>
+      ) : (
+        displayed.map((review, idx) => (
+          <div
+            key={idx}
+            className="bg-white p-4 rounded-lg shadow border border-gray-200"
+          >
+            <div className="flex items-center justify-between mb-2">
+              <div className="flex space-x-1 text-yellow-500">
+                {renderStars(review.rating)}
               </div>
-              <span className="text-sm text-muted-foreground">
-                {new Date(Number(review.createdAt) / 1000000).toLocaleDateString()}
-              </span>
+              <p className="text-sm text-gray-500">
+                {new Date(review.createdAt).toLocaleDateString()}
+              </p>
             </div>
-            <p className="text-sm">{review.comment}</p>
-          </CardContent>
-        </Card>
-      ))}
+            <p className="text-gray-800 mb-2">{review.comment}</p>
+            {review.buyerName && (
+              <p className="text-sm text-gray-500 italic">
+                — {review.buyerName}
+              </p>
+            )}
+          </div>
+        ))
+      )}
     </div>
   );
 }
