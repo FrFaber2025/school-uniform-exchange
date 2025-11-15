@@ -1,218 +1,124 @@
-import { useState, useMemo } from 'react';
-import { useGetListings } from '../hooks/useQueries';
-import ListingCard from '../components/ListingCard';
-import { Input } from '@/components/ui/input';
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
-import { Label } from '@/components/ui/label';
-import { Search } from 'lucide-react';
-import { Gender } from '../backend';
-
-const itemTypeOptions = [
-  { value: 'trousers', label: 'Trousers' },
-  { value: 'jackets', label: 'Jackets' },
-  { value: 'blazers', label: 'Blazers' },
-  { value: 'shirts', label: 'Shirts' },
-  { value: 'skirts', label: 'Skirts' },
-  { value: 'ties', label: 'Ties' },
-  { value: 'sportsShorts', label: 'Sports Shorts' },
-  { value: 'sportsShirts', label: 'Sports Shirts' },
-  { value: 'coat', label: 'Coat' },
-  { value: 'jumper', label: 'Jumper' },
-  { value: 'shoes', label: 'Shoes' },
-];
-
-const schoolYearOptions = [
-  'Years 3-4',
-  'Years 5-6',
-  'Years 7-8',
-  'Years 9-10',
-  'Years 11-13',
-];
-
-const sortOptions = [
-  { value: 'newest', label: 'Newest First' },
-  { value: 'oldest', label: 'Oldest First' },
-  { value: 'price-low', label: 'Price: Low to High' },
-  { value: 'price-high', label: 'Price: High to Low' },
-];
+import React, { useState } from "react";
+import ListingCard from "../components/ListingCard";
 
 export default function BrowseListingsPage() {
-  const { data: listings = [], isLoading } = useGetListings();
-  const [searchQuery, setSearchQuery] = useState('');
-  const [selectedItemType, setSelectedItemType] = useState<string>('all');
-  const [selectedGender, setSelectedGender] = useState<string>('all');
-  const [selectedSchoolYear, setSelectedSchoolYear] = useState<string>('all');
-  const [selectedCondition, setSelectedCondition] = useState<string>('all');
-  const [schoolNameFilter, setSchoolNameFilter] = useState('');
-  const [sortBy, setSortBy] = useState('newest');
+  const [searchTerm, setSearchTerm] = useState("");
+  const [filter, setFilter] = useState({
+    itemType: "",
+    gender: "",
+    schoolYear: "",
+    schoolName: "",
+    condition: "",
+  });
 
-  const filteredAndSortedListings = useMemo(() => {
-    let filtered = listings.filter((listing) => {
-      if (!listing.isActive) return false;
+  // This will be replaced by static or API data later
+  const sampleListings = [
+    {
+      id: "1",
+      title: "Grey School Blazer",
+      description: "Excellent condition, barely worn.",
+      schoolNames: ["St. Peter’s High School"],
+      gender: "boys",
+      schoolYear: "Year 10",
+      condition: "Excellent",
+      price: 20,
+      photos: ["/images/sample-uniform.jpg"],
+    },
+    {
+      id: "2",
+      title: "Girls Summer Dress",
+      description: "Good condition, washed and ready to wear.",
+      schoolNames: ["Greenfield Primary"],
+      gender: "girls",
+      schoolYear: "Year 3",
+      condition: "Slightly Worn",
+      price: 8,
+      photos: ["/images/sample-dress.jpg"],
+    },
+  ];
 
-      const matchesSearch =
-        searchQuery === '' ||
-        listing.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
-        listing.description.toLowerCase().includes(searchQuery.toLowerCase());
-
-      const matchesItemType = selectedItemType === 'all' || listing.itemType.__kind__ === selectedItemType;
-      const matchesGender = selectedGender === 'all' || listing.gender === selectedGender;
-      const matchesSchoolYear = selectedSchoolYear === 'all' || listing.schoolYear === selectedSchoolYear;
-      const matchesCondition = selectedCondition === 'all' || listing.condition === selectedCondition;
-      const matchesSchoolName = schoolNameFilter === '' || listing.schoolNames.some(school => 
-        school.toLowerCase().includes(schoolNameFilter.toLowerCase())
-      );
-
-      return matchesSearch && matchesItemType && matchesGender && matchesSchoolYear && matchesCondition && matchesSchoolName;
-    });
-
-    // Sort listings
-    filtered.sort((a, b) => {
-      switch (sortBy) {
-        case 'newest':
-          return Number(b.createdAt) - Number(a.createdAt);
-        case 'oldest':
-          return Number(a.createdAt) - Number(b.createdAt);
-        case 'price-low':
-          return Number(a.price) - Number(b.price);
-        case 'price-high':
-          return Number(b.price) - Number(a.price);
-        default:
-          return 0;
-      }
-    });
-
-    return filtered;
-  }, [listings, searchQuery, selectedItemType, selectedGender, selectedSchoolYear, selectedCondition, schoolNameFilter, sortBy]);
+  const filteredListings = sampleListings.filter((listing) => {
+    const matchesSearch = listing.title.toLowerCase().includes(searchTerm.toLowerCase());
+    const matchesType = !filter.itemType || listing.title.toLowerCase().includes(filter.itemType.toLowerCase());
+    const matchesGender = !filter.gender || listing.gender === filter.gender;
+    const matchesYear = !filter.schoolYear || listing.schoolYear.toLowerCase().includes(filter.schoolYear.toLowerCase());
+    const matchesSchool = !filter.schoolName || listing.schoolNames.join(" ").toLowerCase().includes(filter.schoolName.toLowerCase());
+    const matchesCondition = !filter.condition || listing.condition.toLowerCase().includes(filter.condition.toLowerCase());
+    return matchesSearch && matchesType && matchesGender && matchesYear && matchesSchool && matchesCondition;
+  });
 
   return (
-    <div className="container py-8">
-      <h1 className="mb-8 text-3xl font-bold">Browse School Uniforms</h1>
+    <div className="container mx-auto px-4 py-8">
+      <h1 className="text-3xl font-bold mb-6 text-center text-primary">
+        Browse School Uniform Listings
+      </h1>
 
-      <div className="mb-8 space-y-4 rounded-lg border bg-card p-6">
-        <div className="relative">
-          <Search className="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-muted-foreground" />
-          <Input
-            placeholder="Search uniforms..."
-            value={searchQuery}
-            onChange={(e) => setSearchQuery(e.target.value)}
-            className="pl-10"
-          />
-        </div>
-
-        <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
-          <div className="space-y-2">
-            <Label>School Name</Label>
-            <Input
-              placeholder="Filter by school name..."
-              value={schoolNameFilter}
-              onChange={(e) => setSchoolNameFilter(e.target.value)}
-            />
-          </div>
-
-          <div className="space-y-2">
-            <Label>Item Type</Label>
-            <Select value={selectedItemType} onValueChange={setSelectedItemType}>
-              <SelectTrigger>
-                <SelectValue placeholder="All types" />
-              </SelectTrigger>
-              <SelectContent>
-                <SelectItem value="all">All types</SelectItem>
-                {itemTypeOptions.map((type) => (
-                  <SelectItem key={type.value} value={type.value}>
-                    {type.label}
-                  </SelectItem>
-                ))}
-              </SelectContent>
-            </Select>
-          </div>
-
-          <div className="space-y-2">
-            <Label>School Year</Label>
-            <Select value={selectedSchoolYear} onValueChange={setSelectedSchoolYear}>
-              <SelectTrigger>
-                <SelectValue placeholder="All years" />
-              </SelectTrigger>
-              <SelectContent>
-                <SelectItem value="all">All years</SelectItem>
-                {schoolYearOptions.map((year) => (
-                  <SelectItem key={year} value={year}>
-                    {year}
-                  </SelectItem>
-                ))}
-              </SelectContent>
-            </Select>
-          </div>
-
-          <div className="space-y-2">
-            <Label>Condition</Label>
-            <Select value={selectedCondition} onValueChange={setSelectedCondition}>
-              <SelectTrigger>
-                <SelectValue placeholder="All conditions" />
-              </SelectTrigger>
-              <SelectContent>
-                <SelectItem value="all">All conditions</SelectItem>
-                <SelectItem value="newOrAsNew">New or As New</SelectItem>
-                <SelectItem value="excellent">Excellent</SelectItem>
-                <SelectItem value="slightlyWorn">Slightly Worn</SelectItem>
-              </SelectContent>
-            </Select>
-          </div>
-
-          <div className="space-y-2">
-            <Label>Gender</Label>
-            <Select value={selectedGender} onValueChange={setSelectedGender}>
-              <SelectTrigger>
-                <SelectValue placeholder="All genders" />
-              </SelectTrigger>
-              <SelectContent>
-                <SelectItem value="all">All genders</SelectItem>
-                <SelectItem value={Gender.boys}>Boys</SelectItem>
-                <SelectItem value={Gender.girls}>Girls</SelectItem>
-              </SelectContent>
-            </Select>
-          </div>
-
-          <div className="space-y-2">
-            <Label>Sort By</Label>
-            <Select value={sortBy} onValueChange={setSortBy}>
-              <SelectTrigger>
-                <SelectValue />
-              </SelectTrigger>
-              <SelectContent>
-                {sortOptions.map((option) => (
-                  <SelectItem key={option.value} value={option.value}>
-                    {option.label}
-                  </SelectItem>
-                ))}
-              </SelectContent>
-            </Select>
-          </div>
-        </div>
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 mb-8">
+        <input
+          type="text"
+          placeholder="Search by item..."
+          value={searchTerm}
+          onChange={(e) => setSearchTerm(e.target.value)}
+          className="border p-2 rounded w-full"
+        />
+        <select
+          value={filter.itemType}
+          onChange={(e) => setFilter({ ...filter, itemType: e.target.value })}
+          className="border p-2 rounded w-full"
+        >
+          <option value="">All Types</option>
+          <option value="blazer">Blazer</option>
+          <option value="shirt">Shirt</option>
+          <option value="skirt">Skirt</option>
+          <option value="trousers">Trousers</option>
+          <option value="jumper">Jumper</option>
+          <option value="shoes">Shoes</option>
+        </select>
+        <select
+          value={filter.gender}
+          onChange={(e) => setFilter({ ...filter, gender: e.target.value })}
+          className="border p-2 rounded w-full"
+        >
+          <option value="">All Genders</option>
+          <option value="boys">Boys</option>
+          <option value="girls">Girls</option>
+        </select>
+        <input
+          type="text"
+          placeholder="School Name"
+          value={filter.schoolName}
+          onChange={(e) => setFilter({ ...filter, schoolName: e.target.value })}
+          className="border p-2 rounded w-full"
+        />
+        <input
+          type="text"
+          placeholder="School Year"
+          value={filter.schoolYear}
+          onChange={(e) => setFilter({ ...filter, schoolYear: e.target.value })}
+          className="border p-2 rounded w-full"
+        />
+        <select
+          value={filter.condition}
+          onChange={(e) => setFilter({ ...filter, condition: e.target.value })}
+          className="border p-2 rounded w-full"
+        >
+          <option value="">All Conditions</option>
+          <option value="New or As New">New or As New</option>
+          <option value="Excellent">Excellent</option>
+          <option value="Slightly Worn">Slightly Worn</option>
+        </select>
       </div>
 
-      {isLoading ? (
-        <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
-          {[...Array(8)].map((_, i) => (
-            <div key={i} className="h-96 animate-pulse rounded-lg bg-muted" />
+      {filteredListings.length > 0 ? (
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+          {filteredListings.map((listing) => (
+            <ListingCard key={listing.id} listing={listing} />
           ))}
         </div>
-      ) : filteredAndSortedListings.length === 0 ? (
-        <div className="flex min-h-[400px] flex-col items-center justify-center text-center">
-          <p className="mb-2 text-lg font-medium">No uniforms found</p>
-          <p className="text-muted-foreground">Try adjusting your filters or search query</p>
-        </div>
       ) : (
-        <>
-          <p className="mb-4 text-sm text-muted-foreground">
-            Showing {filteredAndSortedListings.length} {filteredAndSortedListings.length === 1 ? 'item' : 'items'}
-          </p>
-          <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
-            {filteredAndSortedListings.map((listing) => (
-              <ListingCard key={listing.id} listing={listing} />
-            ))}
-          </div>
-        </>
+        <p className="text-center text-gray-600">
+          No listings match your search criteria.
+        </p>
       )}
     </div>
   );
