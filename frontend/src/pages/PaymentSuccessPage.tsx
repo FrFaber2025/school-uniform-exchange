@@ -57,14 +57,16 @@ export default function PaymentSuccessPage() {
       </div>
 
       {selectedTransaction && (
-        <ReviewSubmissionModal
-          open={showReviewModal}
-          onOpenChange={setShowReviewModal}
-          seller={selectedTransaction.seller}
-          transactionId={selectedTransaction.id}
-          onSuccess={() => setShowReviewModal(false)}
-        />
-     {recentTransaction && (
+  <ReviewSubmissionModal
+    open={showReviewModal}
+    onOpenChange={setShowReviewModal}
+    seller={selectedTransaction.seller}
+    transactionId={selectedTransaction.id}
+    onSuccess={() => setShowReviewModal(false)}
+  />
+)}
+
+{recentTransaction && (
   <button
     onClick={() => {
       setSelectedTransaction(recentTransaction);
