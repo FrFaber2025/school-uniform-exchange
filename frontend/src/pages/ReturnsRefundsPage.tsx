@@ -1,145 +1,63 @@
-import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
-import { Alert, AlertDescription, AlertTitle } from '@/components/ui/alert';
-import { AlertCircle, Info, Shield } from 'lucide-react';
+import React from "react";
 
 export default function ReturnsRefundsPage() {
   return (
-    <div className="container py-8">
-      <div className="mx-auto max-w-3xl">
-        <div className="mb-8">
-          <h1 className="mb-3 text-3xl font-bold">Returns and Refunds Policy</h1>
-          <p className="text-muted-foreground">
-            Understanding our returns and refunds process for School Uniform Exchange (SUE)
-          </p>
-        </div>
+    <div className="container mx-auto px-4 py-8 text-gray-800">
+      <h1 className="text-3xl font-bold text-center text-primary mb-6">
+        Returns & Refunds Policy
+      </h1>
 
-        <Alert className="mb-6 border-primary/30 bg-primary/5">
-          <Shield className="h-4 w-4" />
-          <AlertTitle>Important Information</AlertTitle>
-          <AlertDescription>
-            Please read this policy carefully before making a purchase. Returns and refunds are handled directly between buyers and sellers.
-          </AlertDescription>
-        </Alert>
+      <section className="bg-white p-6 rounded-lg shadow mb-6">
+        <h2 className="text-xl font-semibold text-burgundy mb-3">Overview</h2>
+        <p>
+          The School Uniform Exchange (SUE) aims to ensure every buyer and seller has a fair and transparent experience. We encourage open and polite communication to resolve any issues quickly and fairly.
+        </p>
+      </section>
 
-        <div className="space-y-6">
-          <Card>
-            <CardHeader>
-              <CardTitle className="flex items-center gap-2">
-                <Info className="h-5 w-5 text-primary" />
-                Buyer-Seller Negotiation
-              </CardTitle>
-            </CardHeader>
-            <CardContent className="space-y-3">
-              <p className="text-muted-foreground">
-                All returns and refunds must be negotiated directly between the buyer and seller. The School Uniform Exchange platform facilitates the initial transaction but does not mediate disputes or handle returns.
-              </p>
-              <p className="text-muted-foreground">
-                We encourage both parties to communicate clearly and reach a mutually agreeable solution if there are any issues with the item.
-              </p>
-            </CardContent>
-          </Card>
+      <section className="bg-gray-50 p-6 rounded-lg shadow mb-6">
+        <h2 className="text-xl font-semibold text-burgundy mb-3">Return Eligibility</h2>
+        <ul className="list-disc pl-5 space-y-2">
+          <li>Returns are accepted only if an item arrives damaged or is not as described.</li>
+          <li>Buyers must request a return within <strong>3 calendar days</strong> of receiving the item.</li>
+          <li>Buyers must send photographic evidence if an item is faulty or misrepresented.</li>
+        </ul>
+      </section>
 
-          <Card>
-            <CardHeader>
-              <CardTitle className="flex items-center gap-2">
-                <AlertCircle className="h-5 w-5 text-primary" />
-                Platform Commission Refund
-              </CardTitle>
-            </CardHeader>
-            <CardContent className="space-y-3">
-              <p className="text-muted-foreground">
-                If both the buyer and seller agree to cancel the transaction, the School Uniform Exchange will refund its 5% commission to the seller.
-              </p>
-              <p className="text-muted-foreground">
-                To request a commission refund, both parties must contact our support team with confirmation that they have mutually agreed to cancel the transaction.
-              </p>
-            </CardContent>
-          </Card>
+      <section className="bg-white p-6 rounded-lg shadow mb-6">
+        <h2 className="text-xl font-semibold text-burgundy mb-3">Refunds</h2>
+        <ul className="list-disc pl-5 space-y-2">
+          <li>Refunds are issued when sellers receive the returned item in acceptable condition.</li>
+          <li>
+            The <strong>£1.50 listing fee is non‑refundable</strong> as it covers administrative and platform maintenance costs.
+          </li>
+          <li>If a sale is cancelled by mutual agreement, the 5% commission will be refunded, but the listing fee remains non‑refundable.</li>
+        </ul>
+      </section>
 
-          <Card>
-            <CardHeader>
-              <CardTitle className="flex items-center gap-2">
-                <AlertCircle className="h-5 w-5 text-destructive" />
-                Administration Fee Retention
-              </CardTitle>
-            </CardHeader>
-            <CardContent className="space-y-3">
-              <p className="text-muted-foreground">
-                The £1.50 administration fee is <strong>non-refundable</strong> and will be retained by the platform even in cases of agreed transaction cancellation.
-              </p>
-              <p className="text-muted-foreground">
-                This fee covers the costs of listing processing, payment handling, and platform maintenance.
-              </p>
-            </CardContent>
-          </Card>
+      <section className="bg-gray-50 p-6 rounded-lg shadow mb-6">
+        <h2 className="text-xl font-semibold text-burgundy mb-3">Postage Responsibility</h2>
+        <p>
+          Sellers are responsible for sending items promptly and securely. Buyers cover return postage costs unless the item was misrepresented or damaged. We recommend tracked delivery for all returns.
+        </p>
+      </section>
 
-          <Card>
-            <CardHeader>
-              <CardTitle>Best Practices for Buyers</CardTitle>
-            </CardHeader>
-            <CardContent>
-              <ul className="list-inside list-disc space-y-2 text-muted-foreground">
-                <li>Carefully review all item photos and descriptions before purchasing</li>
-                <li>Check the seller's ratings and reviews</li>
-                <li>Ask questions through the messaging system before completing payment</li>
-                <li>Inspect items promptly upon receipt</li>
-                <li>Contact the seller immediately if there are any issues</li>
-              </ul>
-            </CardContent>
-          </Card>
+      <section className="bg-white p-6 rounded-lg shadow mb-12">
+        <h2 className="text-xl font-semibold text-burgundy mb-3">Additional Guidance</h2>
+        <p>
+          Communication between buyer and seller is key. If either party cannot reach an agreement, the SUE support team may step in to review documentation and approve a fair resolution.
+        </p>
+      </section>
 
-          <Card>
-            <CardHeader>
-              <CardTitle>Best Practices for Sellers</CardTitle>
-            </CardHeader>
-            <CardContent>
-              <ul className="list-inside list-disc space-y-2 text-muted-foreground">
-                <li>Provide accurate and detailed item descriptions</li>
-                <li>Upload clear, well-lit photos showing the item's condition</li>
-                <li>Ensure items match the described condition</li>
-                <li>Wash or dry-clean items before listing</li>
-                <li>Package items securely for shipping</li>
-                <li>Respond promptly to buyer inquiries</li>
-              </ul>
-            </CardContent>
-          </Card>
-
-          <Card>
-            <CardHeader>
-              <CardTitle>Summary</CardTitle>
-            </CardHeader>
-            <CardContent className="space-y-3">
-              <div className="rounded-lg border bg-muted/30 p-4">
-                <ul className="space-y-2 text-sm">
-                  <li className="flex items-start gap-2">
-                    <span className="font-semibold">•</span>
-                    <span>Returns and refunds are negotiated between buyer and seller</span>
-                  </li>
-                  <li className="flex items-start gap-2">
-                    <span className="font-semibold">•</span>
-                    <span>Platform commission (5%) is refunded if both parties agree to cancel</span>
-                  </li>
-                  <li className="flex items-start gap-2">
-                    <span className="font-semibold">•</span>
-                    <span>Administration fee (£1.50) is non-refundable in all cases</span>
-                  </li>
-                  <li className="flex items-start gap-2">
-                    <span className="font-semibold">•</span>
-                    <span>Clear communication between parties is essential</span>
-                  </li>
-                </ul>
-              </div>
-            </CardContent>
-          </Card>
-
-          <Alert>
-            <Info className="h-4 w-4" />
-            <AlertTitle>Need Help?</AlertTitle>
-            <AlertDescription>
-              If you have questions about our returns and refunds policy, please contact our support team. We're here to help facilitate communication between buyers and sellers.
-            </AlertDescription>
-          </Alert>
-        </div>
+      <div className="text-center">
+        <img
+          src="/generated/sue-mascot-improved-bg.dim_400x400.png"
+          alt="Sue the mascot offering help"
+          className="w-32 h-32 mx-auto mb-4"
+        />
+        <h2 className="text-lg font-bold text-burgundy mb-2">Sue’s Helpful Tip</h2>
+        <p className="text-gray-700 max-w-xl mx-auto">
+          Keep your receipts and shipping confirmations until everything is resolved. That way, Sue can help ensure every exchange runs smoothly!
+        </p>
       </div>
     </div>
   );
