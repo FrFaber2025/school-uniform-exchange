@@ -235,8 +235,8 @@ export default function MessagesPage() {
     );
   }
 
-  return (</div>
-    <div className="container py-8">
+  return (
+  <div className="container py-8">
       <div className="mb-6 flex items-center justify-between">
         <h1 className="text-3xl font-bold">Messages</h1>
       </div>
