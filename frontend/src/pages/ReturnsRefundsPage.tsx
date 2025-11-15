@@ -128,8 +128,8 @@ export default function ReturnsRefundsPage() {
         If you have questions about our returns and refunds policy, please contact our support team. 
         We're here to help facilitate communication between buyers and sellers.
       </p>
+        </div>
+      </div>
     </div>
-  </div>
-</div>
-);
-}
+    );
+    }
