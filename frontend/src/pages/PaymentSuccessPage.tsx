@@ -102,7 +102,7 @@ export default function PaymentSuccessPage() {
       Rate Your Experience
     </button>
   )}
-            )}
+            
           </div>
         </div>
       </div>
