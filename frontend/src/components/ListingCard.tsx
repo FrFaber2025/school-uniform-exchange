@@ -1,112 +1,72 @@
-import { Link } from '@tanstack/react-router';
-import { Card, CardContent, CardFooter } from '@/components/ui/card';
-import { Badge } from '@/components/ui/badge';
-import type { Listing, Condition, ItemType, Gender } from '../backend';
-import { useState, useEffect } from 'react';
+import React from "react";
 
 interface ListingCardProps {
-  listing: Listing;
+  image?: string;
+  title: string;
+  description: string;
+  schoolNames: string[];
+  itemType: string;
+  gender: string;
+  schoolYear: string;
+  condition: string;
+  price: number;
+  onClick?: () => void;
 }
 
-const conditionLabels: Record<Condition, string> = {
-  newOrAsNew: 'New or As New',
-  excellent: 'Excellent',
-  slightlyWorn: 'Slightly Worn',
-};
-
-const conditionColors: Record<Condition, string> = {
-  newOrAsNew: 'bg-green-100 text-green-800 dark:bg-green-900 dark:text-green-200',
-  excellent: 'bg-blue-100 text-blue-800 dark:bg-blue-900 dark:text-blue-200',
-  slightlyWorn: 'bg-yellow-100 text-yellow-800 dark:bg-yellow-900 dark:text-yellow-200',
-};
-
-function getItemTypeLabel(itemType: ItemType): string {
-  switch (itemType.__kind__) {
-    case 'trousers':
-      return 'Trousers';
-    case 'jackets':
-      return 'Jackets';
-    case 'blazers':
-      return 'Blazers';
-    case 'shirts':
-      return 'Shirts';
-    case 'skirts':
-      return 'Skirts';
-    case 'ties':
-      return 'Ties';
-    case 'sportsShorts':
-      return 'Sports Shorts';
-    case 'sportsShirts':
-      return 'Sports Shirts';
-    case 'coat':
-      return 'Coat';
-    case 'jumper':
-      return 'Jumper';
-    case 'shoes':
-      return 'Shoes';
-    case 'other':
-      return itemType.other;
-    default:
-      return 'Unknown';
-  }
-}
-
-function getGenderLabel(gender: Gender): string {
-  return gender === 'boys' ? 'Boys' : 'Girls';
-}
-
-export default function ListingCard({ listing }: ListingCardProps) {
-  const [imageUrl, setImageUrl] = useState<string>('');
-
-  useEffect(() => {
-    if (listing.photos.length > 0) {
-      const url = listing.photos[0].getDirectURL();
-      setImageUrl(url);
-    }
-  }, [listing.photos]);
-
-  const genderLabel = getGenderLabel(listing.gender);
-  const schoolsDisplay = listing.schoolNames.join(', ');
-
+export default function ListingCard({
+  image,
+  title,
+  description,
+  schoolNames,
+  itemType,
+  gender,
+  schoolYear,
+  condition,
+  price,
+  onClick,
+}: ListingCardProps) {
   return (
-    <Link to="/listing/$listingId" params={{ listingId: listing.id }}>
-      <Card className="group overflow-hidden transition-all hover:shadow-lg">
-        <div className="aspect-square overflow-hidden bg-muted">
-          {imageUrl ? (
-            <img
-              src={imageUrl}
-              alt={listing.title}
-              className="h-full w-full object-cover transition-transform group-hover:scale-105"
-            />
-          ) : (
-            <div className="flex h-full w-full items-center justify-center text-muted-foreground">No image</div>
-          )}
+    <div
+      onClick={onClick}
+      className="bg-white shadow-md rounded-lg overflow-hidden cursor-pointer hover:shadow-lg transition duration-300 border border-gray-200"
+    >
+      {image ? (
+        <img
+          src={image}
+          alt={title}
+          className="w-full h-48 object-cover"
+        />
+      ) : (
+        <div className="w-full h-48 bg-gray-100 flex items-center justify-center text-gray-400">
+          No Image
         </div>
-        <CardContent className="p-4">
-          <h3 className="mb-2 line-clamp-1 font-semibold">{listing.title}</h3>
-          <p className="mb-2 line-clamp-2 text-sm text-muted-foreground">{listing.description}</p>
-          <div className="mb-2 text-xs text-muted-foreground line-clamp-1">
-            {schoolsDisplay}
-          </div>
-          <div className="flex flex-wrap gap-2">
-            <Badge variant="outline" className="text-xs">
-              {getItemTypeLabel(listing.itemType)}
-            </Badge>
-            <Badge variant="outline" className="text-xs">
-              {genderLabel}
-            </Badge>
-            <Badge variant="outline" className="text-xs">
-              {listing.schoolYear}
-            </Badge>
-            <Badge className={`text-xs ${conditionColors[listing.condition]}`}>
-              {conditionLabels[listing.condition]}
-            </Badge>
-          </div>
-        </CardContent>
-        <CardFooter className="border-t p-4">
-          <span className="text-xl font-bold text-primary">£{Number(listing.price) / 100}</span>
-        </CardFooter>
-      </Card>
-    </Link>
+      )}
+
+      <div className="p-4">
+        <h3 className="text-lg font-semibold text-gray-800 mb-1">{title}</h3>
+        <p className="text-sm text-gray-600 line-clamp-2 mb-3">{description}</p>
+
+        <div className="flex flex-wrap gap-2 mb-3">
+          <span className="bg-blue-100 text-blue-800 text-xs font-medium px-2 py-1 rounded">
+            {itemType}
+          </span>
+          <span className="bg-pink-100 text-pink-800 text-xs font-medium px-2 py-1 rounded">
+            {gender}
+          </span>
+          <span className="bg-green-100 text-green-800 text-xs font-medium px-2 py-1 rounded">
+            {schoolYear}
+          </span>
+          <span className="bg-yellow-100 text-yellow-800 text-xs font-medium px-2 py-1 rounded">
+            {condition}
+          </span>
+        </div>
+
+        <div className="text-gray-700 text-sm mb-2">
+          {schoolNames.join(", ")}
+        </div>
+
+        <div className="text-burgundy font-bold text-lg">£{price.toFixed(2)}</div>
+      </div>
+    </div>
   );
 }
