@@ -1,168 +1,91 @@
-import { useState } from 'react';
-import { useIsStripeConfigured, useSetStripeConfiguration, useIsCallerAdmin } from '../hooks/useQueries';
-import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '@/components/ui/card';
-import { Button } from '@/components/ui/button';
-import { Input } from '@/components/ui/input';
-import { Label } from '@/components/ui/label';
-import { Badge } from '@/components/ui/badge';
-import { toast } from 'sonner';
-import { CheckCircle, XCircle } from 'lucide-react';
+import React from "react";
 
 export default function AdminPage() {
-  const { data: isAdmin, isLoading: adminLoading } = useIsCallerAdmin();
-  const { data: isConfigured, isLoading: configLoading } = useIsStripeConfigured();
-  const setStripeConfig = useSetStripeConfiguration();
-
-  const [secretKey, setSecretKey] = useState('');
-  const [countries, setCountries] = useState('GB,US,CA');
-
-  if (adminLoading || configLoading) {
-    return (
-      <div className="container py-8">
-        <div className="h-96 animate-pulse rounded-lg bg-muted" />
-      </div>
-    );
-  }
-
-  if (!isAdmin) {
-    return (
-      <div className="container flex min-h-[400px] items-center justify-center py-8">
-        <div className="text-center">
-          <h2 className="mb-2 text-2xl font-bold">Access Denied</h2>
-          <p className="text-muted-foreground">You do not have permission to access this page</p>
-        </div>
-      </div>
-    );
-  }
-
-  const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault();
-
-    if (!secretKey.trim()) {
-      toast.error('Please enter a Stripe secret key');
-      return;
-    }
-
-    const countryList = countries
-      .split(',')
-      .map((c) => c.trim().toUpperCase())
-      .filter((c) => c.length === 2);
-
-    if (countryList.length === 0) {
-      toast.error('Please enter at least one valid country code');
-      return;
-    }
-
-    try {
-      await setStripeConfig.mutateAsync({
-        secretKey,
-        allowedCountries: countryList,
-      });
-      toast.success('Stripe configuration saved successfully!');
-      setSecretKey('');
-    } catch (error) {
-      toast.error('Failed to save Stripe configuration');
-      console.error(error);
-    }
-  };
-
   return (
-    <div className="container py-8">
-      <h1 className="mb-8 text-3xl font-bold">Admin Dashboard</h1>
+    <div className="container mx-auto px-4 py-8 text-gray-800">
+      <h1 className="text-3xl font-bold text-center text-primary mb-6">
+        Admin Dashboard
+      </h1>
 
-      <div className="grid gap-6 md:grid-cols-2">
-        <Card>
-          <CardHeader>
-            <CardTitle>Stripe Payment Configuration</CardTitle>
-            <CardDescription>Configure payment processing for the platform</CardDescription>
-          </CardHeader>
-          <CardContent className="space-y-4">
-            <div className="flex items-center gap-2">
-              <span className="text-sm font-medium">Status:</span>
-              {isConfigured ? (
-                <Badge className="bg-green-100 text-green-800">
-                  <CheckCircle className="mr-1 h-3 w-3" />
-                  Configured
-                </Badge>
-              ) : (
-                <Badge variant="destructive">
-                  <XCircle className="mr-1 h-3 w-3" />
-                  Not Configured
-                </Badge>
-              )}
-            </div>
+      {/* Overview section */}
+      <section className="bg-gray-50 p-6 rounded-lg shadow mb-8">
+        <h2 className="text-xl font-semibold text-burgundy mb-3">
+          Platform Overview
+        </h2>
+        <p>
+          The School Uniform Exchange (SUE) platform operates with a transparent
+          fee structure to ensure all sellers and buyers know exactly how
+          payments are processed. Our mission is to make pre‑loved uniform
+          trading simple, fair, and sustainable.
+        </p>
+      </section>
 
-            <form onSubmit={handleSubmit} className="space-y-4">
-              <div className="space-y-2">
-                <Label htmlFor="secretKey">Stripe Secret Key</Label>
-                <Input
-                  id="secretKey"
-                  type="password"
-                  value={secretKey}
-                  onChange={(e) => setSecretKey(e.target.value)}
-                  placeholder="sk_test_..."
-                  required
-                />
-                <p className="text-xs text-muted-foreground">
-                  Your Stripe secret key (starts with sk_test_ or sk_live_)
-                </p>
-              </div>
+      {/* Fees and commission */}
+      <section className="bg-white p-6 rounded-lg shadow mb-8">
+        <h2 className="text-xl font-semibold text-burgundy mb-3">
+          Platform Fees & Commissions
+        </h2>
+        <ul className="list-disc pl-5 space-y-2">
+          <li>A flat listing fee of <strong>£1.50</strong> applies to all new listings.</li>
+          <li>
+            A <strong>5% commission</strong> is automatically deducted from the sale price before the seller’s payment is released.
+          </li>
+          <li>
+            The seller receives their balance once the buyer confirms receipt, or automatically after seven days.
+          </li>
+          <li>
+            Commission is refunded only if both buyer and seller mutually cancel a sale; the listing fee is non‑refundable.
+          </li>
+        </ul>
+      </section>
 
-              <div className="space-y-2">
-                <Label htmlFor="countries">Allowed Countries</Label>
-                <Input
-                  id="countries"
-                  value={countries}
-                  onChange={(e) => setCountries(e.target.value)}
-                  placeholder="GB,US,CA"
-                  required
-                />
-                <p className="text-xs text-muted-foreground">
-                  Comma-separated list of 2-letter country codes (e.g., GB,US,CA)
-                </p>
-              </div>
+      {/* Payments and Stripe configuration */}
+      <section className="bg-gray-50 p-6 rounded-lg shadow mb-8">
+        <h2 className="text-xl font-semibold text-burgundy mb-3">
+          Secure Payments (Stripe)
+        </h2>
+        <p className="mb-3">
+          All transactions on SUE are processed securely through Stripe —
+          ensuring quick and safe payments for both buyers and sellers.
+        </p>
+        <p className="mb-3">
+          To configure or check your Stripe account connection, log in to the
+          Stripe Dashboard with your admin credentials. Make sure your secret
+          keys are active and that the redirect URLs match your deployed
+          Vercel app domain.
+        </p>
+        <p>
+          Stripe test mode can be used for development purposes with sample card numbers
+          like <code>4242 4242 4242 4242</code> for simulated tests.
+        </p>
+      </section>
 
-              <Button type="submit" className="w-full" disabled={setStripeConfig.isPending}>
-                {setStripeConfig.isPending ? 'Saving...' : 'Save Configuration'}
-              </Button>
-            </form>
-          </CardContent>
-        </Card>
+      {/* Transaction management guidance */}
+      <section className="bg-white p-6 rounded-lg shadow mb-8">
+        <h2 className="text-xl font-semibold text-burgundy mb-3">
+          Transaction Flow and Management
+        </h2>
+        <ol className="list-decimal pl-5 space-y-2">
+          <li>Buyer completes payment via Stripe checkout.</li>
+          <li>Seller is notified to dispatch the item within 3 working days.</li>
+          <li>Buyer confirms receipt in their messages dashboard.</li>
+          <li>Admin authorizes payment release to the seller.</li>
+        </ol>
+        <p className="mt-3">
+          Admins can view transaction summaries, review disputes, and update
+          payment statuses directly through the internal dashboard or Stripe
+          interface.
+        </p>
+      </section>
 
-        <Card>
-          <CardHeader>
-            <CardTitle>Platform Information</CardTitle>
-            <CardDescription>Key metrics and settings</CardDescription>
-          </CardHeader>
-          <CardContent className="space-y-4">
-            <div className="space-y-2">
-              <h3 className="font-semibold">Payment Fees</h3>
-              <ul className="space-y-1 text-sm text-muted-foreground">
-                <li>• Listing Fee: £1.50 per listing</li>
-                <li>• Commission: 5% on sales</li>
-                <li>• Fees deducted after buyer confirms receipt</li>
-              </ul>
-            </div>
-            <div className="space-y-2">
-              <h3 className="font-semibold">Transaction Flow</h3>
-              <ul className="space-y-1 text-sm text-muted-foreground">
-                <li>1. Buyer pays through Stripe</li>
-                <li>2. Seller confirms dispatch</li>
-                <li>3. Buyer confirms receipt</li>
-                <li>4. Payment released to seller (minus fees)</li>
-              </ul>
-            </div>
-            <div className="space-y-2">
-              <h3 className="font-semibold">Allowed Conditions</h3>
-              <ul className="space-y-1 text-sm text-muted-foreground">
-                <li>• New or As New</li>
-                <li>• Excellent</li>
-                <li>• Slightly Worn</li>
-              </ul>
-            </div>
-          </CardContent>
-        </Card>
-      </div>
+      {/* Footer note */}
+      <section className="bg-gray-100 p-4 rounded-lg text-center">
+        <p className="text-sm text-gray-600">
+          <strong>Note:</strong> This simplified admin panel is optimized for
+          Vercel deployment and demonstrates all policy, fee, and payment
+          structures without relying on backend or authentication imports.
+        </p>
+      </section>
     </div>
   );
 }
