@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react';
 import { useNavigate, useSearch, Link } from '@tanstack/react-router';
+import { useInternetIdentity } from '../hooks/useInternetIdentity';
 import { useCreateListing, useUpdateListing, useGetListing, useGetPriceSuggestion, useGetSchoolNames, useGetTermsAndConditions, useHasAcceptedTermsAndConditions, useAcceptTermsAndConditions } from '../hooks/useQueries';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
@@ -13,6 +14,8 @@ import ImageUpload from '../components/ImageUpload';
 import TermsAcceptanceCheckbox from '../components/TermsAcceptanceCheckbox';
 import { toast } from 'sonner';
 import { ArrowLeft, AlertCircle, Lightbulb, TrendingUp, Calculator, BookOpen, X, Package } from 'lucide-react';
+import type { Listing, ItemType, SizeMeasurements } from '../backend';
+import { Condition, Gender, ExternalBlob } from '../backend';
 
 const itemTypeOptions: { value: string; label: string; type: ItemType }[] = [
   { value: 'trousers', label: 'Trousers', type: { __kind__: 'trousers', trousers: null } },
@@ -38,6 +41,7 @@ const schoolYearOptions = [
 
 export default function CreateListingPage() {
   const navigate = useNavigate();
+  const { identity } = useInternetIdentity();
   const search = useSearch({ from: '/create-listing' });
   const editListingId = (search as any)?.edit;
   const { data: existingListing } = useGetListing(editListingId || '');

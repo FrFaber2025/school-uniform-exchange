@@ -1,9 +1,11 @@
 import { useState, useMemo } from 'react';
 import { useGetListings } from '../hooks/useQueries';
 import ListingCard from '../components/ListingCard';
+import { Input } from '@/components/ui/input';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { Label } from '@/components/ui/label';
 import { Search } from 'lucide-react';
+import { Gender } from '../backend';
 
 const itemTypeOptions = [
   { value: 'trousers', label: 'Trousers' },
@@ -90,25 +92,22 @@ export default function BrowseListingsPage() {
       <div className="mb-8 space-y-4 rounded-lg border bg-card p-6">
         <div className="relative">
           <Search className="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-muted-foreground" />
-          <input
-  type="text"
-  placeholder="Filter by school name..."
-  value={schoolNameFilter}
-  onChange={(e) => setSchoolNameFilter(e.target.value)}
-  className="border border-gray-300 rounded px-2 py-1 w-full"
-/>
+          <Input
+            placeholder="Search uniforms..."
+            value={searchQuery}
+            onChange={(e) => setSearchQuery(e.target.value)}
+            className="pl-10"
+          />
         </div>
 
         <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
           <div className="space-y-2">
             <Label>School Name</Label>
-            <input
-  type="text"
-  placeholder="Filter by school name..."
-  value={schoolNameFilter}
-  onChange={(e) => setSchoolNameFilter(e.target.value)}
-  className="border border-gray-300 rounded px-2 py-1 w-full"
-/>
+            <Input
+              placeholder="Filter by school name..."
+              value={schoolNameFilter}
+              onChange={(e) => setSchoolNameFilter(e.target.value)}
+            />
           </div>
 
           <div className="space-y-2">

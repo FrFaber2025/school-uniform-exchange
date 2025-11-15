@@ -1,5 +1,6 @@
 import { useParams, useNavigate } from '@tanstack/react-router';
 import { useGetListing, useDeleteListing, useGetTransactionsForUser, useGetUserProfile, useCreateCheckoutSession, useGetAverageRatingForSeller, useGetReviewCountForSeller, useGetRecentReviewsForSeller, useGetTermsAndConditions, useHasAcceptedTermsAndConditions, useAcceptTermsAndConditions } from '../hooks/useQueries';
+import { useInternetIdentity } from '../hooks/useInternetIdentity';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
@@ -10,6 +11,8 @@ import { Dialog, DialogContent, DialogDescription, DialogFooter, DialogHeader, D
 import { MessageSquare, Edit, Trash2, ArrowLeft, ShoppingCart, Shield, Mail, MapPin, Package, CheckCircle, Clock } from 'lucide-react';
 import { useState, useEffect, useMemo } from 'react';
 import { toast } from 'sonner';
+import type { Condition, ItemType, Gender, ShoppingItem } from '../backend';
+import { TransactionStatus } from '../backend';
 import SellerRating from '../components/SellerRating';
 import ReviewsList from '../components/ReviewsList';
 import TermsAcceptanceCheckbox from '../components/TermsAcceptanceCheckbox';
@@ -65,7 +68,8 @@ export default function ListingDetailPage() {
   const { listingId } = useParams({ from: '/listing/$listingId' });
   const navigate = useNavigate();
   const { data: listing, isLoading } = useGetListing(listingId);
-    const deleteListing = useDeleteListing();
+  const { identity } = useInternetIdentity();
+  const deleteListing = useDeleteListing();
   const { data: transactions = [] } = useGetTransactionsForUser();
   const { data: sellerProfile } = useGetUserProfile(listing?.seller || null);
   const { data: averageRating } = useGetAverageRatingForSeller(listing?.seller || null);

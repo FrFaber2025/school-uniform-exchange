@@ -1,4 +1,9 @@
 import { useState } from 'react';
+import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription } from '@/components/ui/dialog';
+import { Button } from '@/components/ui/button';
+import { Input } from '@/components/ui/input';
+import { Label } from '@/components/ui/label';
+import { Textarea } from '@/components/ui/textarea';
 import { useSaveCallerUserProfile } from '../hooks/useQueries';
 import { toast } from 'sonner';
 
@@ -48,41 +53,40 @@ export default function ProfileSetupModal({ open, onOpenChange }: ProfileSetupMo
         </DialogHeader>
         <form onSubmit={handleSubmit} className="space-y-4">
           <div className="space-y-2">
-            <label htmlFor="name" className="block text-sm font-medium text-gray-700 mb-1">Full Name</label>
-            <input
-  type="text"
-  placeholder="Enter your name"
-  value={name}
-  onChange={(e) => setName(e.target.value)}
-  className="border border-gray-300 rounded px-2 py-1 w-full"
-/>
+            <Label htmlFor="name">Full Name</Label>
+            <Input
+              id="name"
+              value={name}
+              onChange={(e) => setName(e.target.value)}
+              placeholder="Enter your full name"
+              required
+            />
           </div>
           <div className="space-y-2">
-            <label htmlFor="email" className="block text-sm font-medium text-gray-700 mb-1">Email Address</label>
-            <input
-  type="text"
-  placeholder="Enter your name"
-  value={name}
-  onChange={(e) => setName(e.target.value)}
-  className="border border-gray-300 rounded px-2 py-1 w-full"
-/>
+            <Label htmlFor="email">Email Address</Label>
+            <Input
+              id="email"
+              type="email"
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
+              placeholder="your.email@example.com"
+              required
+            />
           </div>
           <div className="space-y-2">
-            <label htmlFor="address" className="block text-sm font-medium text-gray-700 mb-1">Postal Address</label>
-            <textarea
-  placeholder="Enter Your Full Postal Address"
-  value={address}
-  onChange={(e) => setAddress(e.target.value)}
-  className="border border-gray-300 rounded px-2 py-1 w-full h-24 resize-none"
-/>
+            <Label htmlFor="address">Postal Address</Label>
+            <Textarea
+              id="address"
+              value={address}
+              onChange={(e) => setAddress(e.target.value)}
+              placeholder="Enter your full postal address"
+              rows={3}
+              required
+            />
           </div>
-          <button
-  type="submit"
-  disabled={saveProfile.isPending}
-  className="w-full bg-burgundy text-white font-semibold py-2 px-4 rounded hover:bg-burgundy/90"
->
-  {saveProfile.isPending ? 'Creating Profile...' : 'Complete Profile'}
-</button>
+          <Button type="submit" className="w-full" disabled={saveProfile.isPending}>
+            {saveProfile.isPending ? 'Creating Profile...' : 'Complete Profile'}
+          </Button>
         </form>
       </DialogContent>
     </Dialog>

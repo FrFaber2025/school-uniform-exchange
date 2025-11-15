@@ -1,5 +1,6 @@
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
 import { useActor } from './useActor';
+import { useInternetIdentity } from './useInternetIdentity';
 import type { UserProfile, Listing, Message, ShoppingItem, StripeConfiguration, PriceSuggestion, ItemType, Gender, Transaction, TransactionStatus, Review, TermsAndConditions, TermsAcceptance } from '../backend';
 import { ExternalBlob } from '../backend';
 import { Principal } from '@icp-sdk/core/principal';
@@ -79,7 +80,8 @@ export function useGetTermsAndConditions() {
 
 export function useGetTermsAcceptance() {
   const { actor, isFetching } = useActor();
-  
+  const { identity } = useInternetIdentity();
+
   return useQuery<TermsAcceptance | null>({
     queryKey: ['termsAcceptance'],
     queryFn: async () => {
@@ -92,7 +94,8 @@ export function useGetTermsAcceptance() {
 
 export function useHasAcceptedTermsAndConditions(version: string | null) {
   const { actor, isFetching } = useActor();
-  
+  const { identity } = useInternetIdentity();
+
   return useQuery<boolean>({
     queryKey: ['hasAcceptedTerms', version],
     queryFn: async () => {
@@ -215,6 +218,8 @@ export function useGetPriceSuggestion(
   enabled: boolean = true
 ) {
   const { actor, isFetching } = useActor();
+  const { identity } = useInternetIdentity();
+
   return useQuery<PriceSuggestion | null>({
     queryKey: ['priceSuggestion', retailPrice, itemType, schoolName, gender, schoolYear],
     queryFn: async () => {
@@ -234,7 +239,8 @@ export function useGetPriceSuggestion(
 
 export function useHasCompletedPaymentForListing(listingId: string) {
   const { actor, isFetching } = useActor();
- 
+  const { identity } = useInternetIdentity();
+
   return useQuery<boolean>({
     queryKey: ['hasCompletedPayment', listingId],
     queryFn: async () => {
@@ -247,7 +253,8 @@ export function useHasCompletedPaymentForListing(listingId: string) {
 
 export function useGetMessagesForUser() {
   const { actor, isFetching } = useActor();
- 
+  const { identity } = useInternetIdentity();
+
   return useQuery<Message[]>({
     queryKey: ['messages'],
     queryFn: async () => {
@@ -260,7 +267,8 @@ export function useGetMessagesForUser() {
 
 export function useGetMessagesForListing(listingId: string) {
   const { actor, isFetching } = useActor();
- 
+  const { identity } = useInternetIdentity();
+
   return useQuery<Message[]>({
     queryKey: ['messages', listingId],
     queryFn: async () => {
@@ -336,7 +344,8 @@ export function useUpdateTransactionStatus() {
 
 export function useGetTransaction(transactionId: string) {
   const { actor, isFetching } = useActor();
-  
+  const { identity } = useInternetIdentity();
+
   return useQuery<Transaction | null>({
     queryKey: ['transaction', transactionId],
     queryFn: async () => {
@@ -349,7 +358,8 @@ export function useGetTransaction(transactionId: string) {
 
 export function useGetTransactionsForUser() {
   const { actor, isFetching } = useActor();
-  
+  const { identity } = useInternetIdentity();
+
   return useQuery<Transaction[]>({
     queryKey: ['transactions'],
     queryFn: async () => {
@@ -411,6 +421,7 @@ export function useCreateCheckoutSession() {
 
 export function useIsCallerAdmin() {
   const { actor, isFetching } = useActor();
+  const { identity } = useInternetIdentity();
 
   return useQuery<boolean>({
     queryKey: ['isAdmin'],

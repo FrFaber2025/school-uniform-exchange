@@ -1,10 +1,14 @@
 import { Link, useNavigate } from '@tanstack/react-router';
+import { useInternetIdentity } from '../hooks/useInternetIdentity';
 import { useQueryClient } from '@tanstack/react-query';
+import { Button } from '@/components/ui/button';
+import { Sheet, SheetContent, SheetTrigger } from '@/components/ui/sheet';
 import { Menu, MessageSquare, Package, PlusCircle, Settings, BookOpen, UserPlus, LogIn } from 'lucide-react';
 import { useGetCallerUserProfile, useIsCallerAdmin } from '../hooks/useQueries';
 import { useState } from 'react';
 
 export default function Header() {
+  const { login, clear, loginStatus, identity } = useInternetIdentity();
   const queryClient = useQueryClient();
   const navigate = useNavigate();
   const { data: userProfile } = useGetCallerUserProfile();
@@ -114,86 +118,88 @@ export default function Header() {
           {!isAuthenticated ? (
             <>
               {/* Registration Button - Matching Login button style exactly */}
-              <button
-  onClick={() => handleAuth(true)}
-  disabled={disabled}
-  className="font-semibold hover:bg-muted border border-gray-300 rounded px-3 py-1 text-sm flex items-center"
->
-  <UserPlus className="mr-1.5 h-4 w-4" />
-  <span className="hidden sm:inline">Register as a New User</span>
-  <span className="sm:hidden">Register</span>
-</button>
+              <Button 
+                onClick={() => handleAuth(true)} 
+                disabled={disabled}
+                variant="outline"
+                size="sm"
+                className="font-semibold hover:bg-muted"
+              >
+                <UserPlus className="mr-1.5 h-4 w-4" />
+                <span className="hidden sm:inline">Register as a New User</span>
+                <span className="sm:hidden">Register</span>
+              </Button>
               
               {/* Login Button */}
-              <button
-  onClick={() => handleAuth(false)}
-  disabled={disabled}
-  className="font-semibold hover:bg-muted border border-gray-300 rounded px-3 py-1 text-sm flex items-center"
->
-  <LogIn className="mr-1.5 h-4 w-4" />
-  <span className="hidden sm:inline">
-    {loginStatus === 'logging-in' ? 'Logging in...' : 'Login'}
-  </span>
-  <span className="sm:hidden">
-    {loginStatus === 'logging-in' ? 'Wait...' : 'Login'}
-  </span>
-</button>
+              <Button 
+                onClick={() => handleAuth(false)} 
+                disabled={disabled}
+                variant="outline"
+                size="sm"
+                className="font-semibold hover:bg-muted"
+              >
+                <LogIn className="mr-1.5 h-4 w-4" />
+                <span className="hidden sm:inline">
+                  {loginStatus === 'logging-in' ? 'Logging in...' : 'Login'}
+                </span>
+                <span className="sm:hidden">
+                  {loginStatus === 'logging-in' ? 'Wait...' : 'Login'}
+                </span>
+              </Button>
             </>
           ) : (
-            <button
-  onClick={() => handleAuth(false)}
-  disabled={disabled}
-  className="border border-gray-300 rounded px-3 py-1 text-sm font-semibold hover:bg-muted"
->
-  Logout
-</button>
+            <Button 
+              onClick={() => handleAuth(false)} 
+              disabled={disabled} 
+              variant="outline"
+              size="sm"
+            >
+              Logout
+            </Button>
           )}
 
-          <div className="md:hidden">
-  <button
-    onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-    className="p-2 rounded border border-gray-300 hover:bg-muted"
-  >
-    <Menu className="h-5 w-5" />
-  </button>
-
-  {mobileMenuOpen && (
-    <div className="absolute right-0 top-14 bg-white shadow-lg p-4 rounded w-56">
-      {/* Mobile menu content here */}
-    </div>
-  )}
-</div>
+          <Sheet open={mobileMenuOpen} onOpenChange={setMobileMenuOpen}>
+            <SheetTrigger asChild className="md:hidden">
+              <Button variant="ghost" size="icon">
+                <Menu className="h-5 w-5" />
+              </Button>
+            </SheetTrigger>
+            <SheetContent side="right">
               <nav className="flex flex-col gap-4 pt-8">
                 <NavLinks mobile onLinkClick={() => setMobileMenuOpen(false)} />
                 
                 {!isAuthenticated && (
                   <div className="mt-4 flex flex-col gap-3 border-t pt-4">
                     <p className="text-sm font-medium text-muted-foreground">Get Started</p>
-                    <button
-  onClick={() => {
-    setMobileMenuOpen(false);
-    handleAuth(true);
-  }}
-  disabled={disabled}
-  className="w-full font-semibold hover:bg-muted border border-gray-300 rounded px-3 py-1 flex items-center"
->
-  <UserPlus className="mr-2 h-4 w-4" />
-  Register as a New User
-</button>
-                    <button
-  onClick={() => {
-    setMobileMenuOpen(false);
-    handleAuth(false);
-  }}
-  disabled={disabled}
-  className="w-full font-semibold hover:bg-muted border border-gray-300 rounded px-3 py-1 flex items-center"
->
-  <LogIn className="mr-2 h-4 w-4" />
-  {loginStatus === 'logging-in' ? 'Logging in...' : 'Login'}
-</button>
+                    <Button 
+                      onClick={() => {
+                        setMobileMenuOpen(false);
+                        handleAuth(true);
+                      }} 
+                      disabled={disabled}
+                      variant="outline"
+                      className="w-full font-semibold hover:bg-muted"
+                    >
+                      <UserPlus className="mr-2 h-4 w-4" />
+                      Register as a New User
+                    </Button>
+                    <Button 
+                      onClick={() => {
+                        setMobileMenuOpen(false);
+                        handleAuth(false);
+                      }} 
+                      disabled={disabled}
+                      variant="outline"
+                      className="w-full font-semibold hover:bg-muted"
+                    >
+                      <LogIn className="mr-2 h-4 w-4" />
+                      {loginStatus === 'logging-in' ? 'Logging in...' : 'Login'}
+                    </Button>
                   </div>
                 )}
               </nav>
+            </SheetContent>
+          </Sheet>
         </div>
       </div>
     </header>

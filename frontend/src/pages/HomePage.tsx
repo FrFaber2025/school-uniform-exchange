@@ -1,4 +1,5 @@
 import { Link } from '@tanstack/react-router';
+import { Button } from '@/components/ui/button';
 import { Search, ShoppingBag, MessageSquare, Shield, TrendingUp } from 'lucide-react';
 
 export default function HomePage() {
@@ -49,10 +50,20 @@ export default function HomePage() {
               </div>
               <div className="flex flex-wrap gap-4">
                 <Link to="/create-listing">
-                  <button className="bg-burgundy text-white px-4 py-2 rounded">Get Started</button>
+                  <Button 
+                    size="lg" 
+                    className="bg-[oklch(55%_0.15_145)] hover:bg-[oklch(50%_0.15_145)] text-white font-bold shadow-[0_4px_12px_rgba(0,0,0,0.6)] border-2 border-white/30 hover:border-white/50 transition-all hover:scale-105"
+                  >
+                    Sell an Item of Uniform
+                  </Button>
                 </Link>
                 <Link to="/browse">
-                  <button className="bg-burgundy text-white px-4 py-2 rounded">Get Started</button>
+                  <Button 
+                    size="lg" 
+                    className="bg-white hover:bg-white/95 text-[oklch(35%_0.08_250)] font-bold shadow-[0_4px_12px_rgba(0,0,0,0.6)] border-2 border-[oklch(35%_0.08_250)]/40 hover:border-[oklch(35%_0.08_250)]/60 transition-all hover:scale-105"
+                  >
+                    Browse Items for Sale
+                  </Button>
                 </Link>
               </div>
             </div>
@@ -113,7 +124,12 @@ export default function HomePage() {
                 Your children have outgrown their uniforms? Don't let them gather dust! I'll help you sell them quickly and easily, putting money back in your pocket while helping other families save.
               </p>
               <Link to="/create-listing">
-                <button className="bg-burgundy text-white px-4 py-2 rounded">Get Started</button>
+                <Button 
+                  size="lg" 
+                  className="bg-[oklch(55%_0.15_145)] hover:bg-[oklch(50%_0.15_145)] text-white font-bold shadow-lg hover:shadow-xl transition-all hover:scale-105"
+                >
+                  Start Selling with Sue
+                </Button>
               </Link>
             </div>
           </div>
@@ -136,7 +152,11 @@ export default function HomePage() {
               List your items with photos, set your price with my guidance, and connect with interested buyers. Direct shipping means no hassle!
             </p>
             <Link to="/create-listing">
-              <button className="bg-burgundy text-white px-4 py-2 rounded">Get Started</button>
+              <Button 
+                className="w-full bg-[oklch(55%_0.15_145)] hover:bg-[oklch(50%_0.15_145)] text-white font-semibold shadow-md hover:shadow-lg transition-all"
+              >
+                Sell an Item Now
+              </Button>
             </Link>
           </div>
           <div className="rounded-lg border bg-card p-6 text-center shadow-sm">
@@ -146,7 +166,11 @@ export default function HomePage() {
               Browse quality second-hand uniform items at great prices. Filter by school, size, and condition to find exactly what you need.
             </p>
             <Link to="/browse">
-              <button className="bg-burgundy text-white px-4 py-2 rounded">Get Started</button>
+              <Button 
+                className="w-full bg-white hover:bg-white/95 text-[oklch(35%_0.08_250)] font-semibold shadow-md hover:shadow-lg transition-all border-2 border-[oklch(35%_0.08_250)]/40 hover:border-[oklch(35%_0.08_250)]/60"
+              >
+                Browse Items
+              </Button>
             </Link>
           </div>
         </div>
@@ -167,10 +191,20 @@ export default function HomePage() {
             </p>
             <div className="flex flex-wrap justify-center gap-4">
               <Link to="/create-listing">
-                <button className="bg-burgundy text-white px-4 py-2 rounded">Sell an Item with Sue</button>
+                <Button 
+                  size="lg" 
+                  className="bg-[oklch(55%_0.15_145)] hover:bg-[oklch(50%_0.15_145)] text-white font-bold shadow-lg hover:shadow-xl border-2 border-[oklch(55%_0.15_145)] hover:border-[oklch(50%_0.15_145)] transition-all hover:scale-105"
+                >
+                  Sell an Item with Sue
+                </Button>
               </Link>
               <Link to="/browse">
-                <button className="bg-burgundy text-white px-4 py-2 rounded">Browse Available Items</button>
+                <Button 
+                  size="lg" 
+                  className="bg-[oklch(35%_0.08_250)] hover:bg-[oklch(30%_0.08_250)] text-white font-bold shadow-lg hover:shadow-xl border-2 border-[oklch(35%_0.08_250)] hover:border-[oklch(30%_0.08_250)] transition-all hover:scale-105"
+                >
+                  Browse Available Items
+                </Button>
               </Link>
             </div>
           </div>
