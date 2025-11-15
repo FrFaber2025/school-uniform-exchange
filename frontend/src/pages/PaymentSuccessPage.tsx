@@ -40,18 +40,18 @@ export default function PaymentSuccessPage() {
         </p>
         <div className="space-y-2">
           <button
-            onClick={() => navigate({ to: '/messages' })}
-            className="border border-gray-300 rounded px-3 py-1 text-sm font-semibold hover:bg-muted"
-          >
-            View Messages
-          </button>
+  onClick={() => navigate({ to: '/messages' })}
+  className="border border-gray-300 rounded px-3 py-1 text-sm font-semibold hover:bg-muted"
+>
+  View Messages
+</button>
           <button
             onClick={() => navigate({ to: '/browse' })}
             className="border border-gray-300 rounded px-3 py-1 text-sm font-semibold hover:bg-muted"
           >
             Continue Shopping
           </button>
-            )}
+            )
           </div>
         </div>
       </div>
@@ -68,7 +68,7 @@ export default function PaymentSuccessPage() {
     </div>
   );
 }
-);
+;
   View Messages
 </button>
             <button
