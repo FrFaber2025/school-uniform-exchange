@@ -1,5 +1,4 @@
 import { useState } from 'react';
-import { Textarea } from '@/components/ui/textarea';
 import { useSaveCallerUserProfile } from '../hooks/useQueries';
 import { toast } from 'sonner';
 
@@ -70,14 +69,12 @@ export default function ProfileSetupModal({ open, onOpenChange }: ProfileSetupMo
           </div>
           <div className="space-y-2">
             <label htmlFor="address" className="block text-sm font-medium text-gray-700 mb-1">Postal Address</label>
-            <Textarea
-              id="address"
-              value={address}
-              onChange={(e) => setAddress(e.target.value)}
-              placeholder="Enter your full postal address"
-              rows={3}
-              required
-            />
+            <textarea
+  placeholder="Enter Your Full Postal Address"
+  value={address}
+  onChange={(e) => setAddress(e.target.value)}
+  className="border border-gray-300 rounded px-2 py-1 w-full h-24 resize-none"
+/>
           </div>
           <button
   type="submit"
