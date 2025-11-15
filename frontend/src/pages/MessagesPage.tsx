@@ -1,13 +1,6 @@
 import { useState, useMemo, useEffect } from 'react';
 import { useSearch } from '@tanstack/react-router';
 import { useGetMessagesForUser, useSendMessage, useGetListings, useGetTransactionsForUser, useUpdateTransactionStatus } from '../hooks/useQueries';
-import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
-import { Button } from '@/components/ui/button';
-import { Textarea } from '@/components/ui/textarea';
-import { ScrollArea } from '@/components/ui/scroll-area';
-import { Avatar, AvatarFallback } from '@/components/ui/avatar';
-import { Alert, AlertDescription, AlertTitle } from '@/components/ui/alert';
-import { Badge } from '@/components/ui/badge';
 import { Send, Shield, Lock, MessageSquare, Package, CheckCircle, Clock } from 'lucide-react';
 import { toast } from 'sonner';
 
@@ -200,19 +193,39 @@ export default function MessagesPage() {
   };
 
   const getStatusBadge = (status: TransactionStatus) => {
-    switch (status) {
-      case TransactionStatus.completed:
-        return <Badge variant="outline" className="bg-blue-100 text-blue-800"><Clock className="mr-1 h-3 w-3" />Payment Completed</Badge>;
-      case TransactionStatus.dispatched:
-        return <Badge variant="outline" className="bg-purple-100 text-purple-800"><Package className="mr-1 h-3 w-3" />Item Dispatched</Badge>;
-      case TransactionStatus.received:
-        return <Badge variant="outline" className="bg-green-100 text-green-800"><CheckCircle className="mr-1 h-3 w-3" />Item Received</Badge>;
-      case TransactionStatus.paymentReleased:
-        return <Badge variant="outline" className="bg-success-100 text-success-800"><CheckCircle className="mr-1 h-3 w-3" />Payment Released</Badge>;
-      default:
-        return <Badge variant="outline">{status}</Badge>;
-    }
-  };
+  switch (status) {
+    case TransactionStatus.completed:
+      return (
+        <span className="inline-flex items-center bg-blue-100 text-blue-800 rounded px-2 py-1 text-xs font-semibold">
+          <Clock className="mr-1 h-3 w-3" /> Payment Completed
+        </span>
+      );
+    case TransactionStatus.dispatched:
+      return (
+        <span className="inline-flex items-center bg-purple-100 text-purple-800 rounded px-2 py-1 text-xs font-semibold">
+          <Package className="mr-1 h-3 w-3" /> Item Dispatched
+        </span>
+      );
+    case TransactionStatus.received:
+      return (
+        <span className="inline-flex items-center bg-green-100 text-green-800 rounded px-2 py-1 text-xs font-semibold">
+          <CheckCircle className="mr-1 h-3 w-3" /> Item Received
+        </span>
+      );
+    case TransactionStatus.paymentReleased:
+      return (
+        <span className="inline-flex items-center bg-emerald-100 text-emerald-800 rounded px-2 py-1 text-xs font-semibold">
+          <CheckCircle className="mr-1 h-3 w-3" /> Payment Released
+        </span>
+      );
+    default:
+      return (
+        <span className="inline-flex items-center bg-gray-100 text-gray-800 rounded px-2 py-1 text-xs font-semibold">
+          {status}
+        </span>
+      );
+  }
+};
 
   if (isLoading) {
     return (
@@ -243,174 +256,41 @@ export default function MessagesPage() {
       </div>
 
       <div className="grid gap-6 lg:grid-cols-3">
-        <Card className="lg:col-span-1">
-          <CardHeader>
-            <CardTitle>Conversations</CardTitle>
-          </CardHeader>
-          <CardContent className="p-0">
-            <ScrollArea className="h-[500px]">
-              {Array.from(conversationsByListing.keys()).map((listingId) => {
-                const listing = listings.find((l) => l.id === listingId);
-                const transaction = transactions.find((t) => t.listingId === listingId);
-                return (
-                  <button
-                    key={listingId}
-                    onClick={() => setSelectedListingId(listingId)}
-                    className={`w-full border-b p-4 text-left transition-colors hover:bg-muted ${
-                      selectedListingId === listingId ? 'bg-muted' : ''
-                    }`}
-                  >
-                    <p className="font-medium">{listing?.title || 'Unknown Listing'}</p>
-                    <p className="text-sm text-muted-foreground">
-                      {conversationsByListing.get(listingId)?.length || 0} messages
-                    </p>
-                    {transaction && (
-                      <div className="mt-2">
-                        {getStatusBadge(transaction.status)}
-                      </div>
-                    )}
-                  </button>
-                );
-              })}
-              {conversationsByListing.size === 0 && (
-                <div className="flex h-[500px] flex-col items-center justify-center p-6 text-center text-muted-foreground">
-                  <Lock className="mb-3 h-12 w-12 opacity-50" />
-                  <p className="font-medium">No conversations yet</p>
-                  <p className="mt-2 text-sm">Complete a purchase to start messaging</p>
-                </div>
-              )}
-            </ScrollArea>
-          </CardContent>
-        </Card>
+  <div className="lg:col-span-1 border rounded-lg shadow bg-white">
+    <div className="border-b px-4 py-2 font-semibold text-lg">Conversations</div>
+    <div className="p-0 h-[500px] overflow-y-auto">
+      {Array.from(conversationsByListing.keys()).map((listingId) => {
+        const listing = listings.find((l) => l.id === listingId);
+        const transaction = transactions.find((t) => t.listingId === listingId);
 
-        <Card className="lg:col-span-2">
-          <CardHeader>
-            <div className="flex items-center justify-between">
-              <CardTitle>{selectedListing?.title || 'Select a conversation'}</CardTitle>
-              {selectedTransaction && (
-                <div>{getStatusBadge(selectedTransaction.status)}</div>
-              )}
-            </div>
-          </CardHeader>
-          <CardContent>
-            {selectedListingId ? (
-              <div className="space-y-4">
-                {selectedTransaction && selectedTransaction.status === TransactionStatus.completed && isSeller && (
-                  <Alert className="border-primary/50 bg-primary/5">
-                    <Package className="h-4 w-4" />
-                    <AlertTitle>Ready to Dispatch?</AlertTitle>
-                    <AlertDescription className="mt-2">
-                      <p className="mb-3 text-sm">Once you've sent the item to the buyer, confirm dispatch below. The buyer will then be able to confirm receipt, which will trigger payment release.</p>
-                      <Button onClick={handleConfirmDispatch} disabled={updateTransactionStatus.isPending} size="sm">
-                        {updateTransactionStatus.isPending ? 'Confirming...' : 'Confirm Item Dispatched'}
-                      </Button>
-                    </AlertDescription>
-                  </Alert>
-                )}
-
-                {selectedTransaction && selectedTransaction.status === TransactionStatus.dispatched && isBuyer && (
-                  <Alert className="border-success/50 bg-success/5">
-                    <CheckCircle className="h-4 w-4" />
-                    <AlertTitle>Item Dispatched</AlertTitle>
-                    <AlertDescription className="mt-2">
-                      <p className="mb-3 text-sm">The seller has confirmed dispatch. Once you receive the item, please confirm receipt below. This will release payment to the seller (minus the £1.50 listing fee and 5% commission).</p>
-                      <Button onClick={handleConfirmReceipt} disabled={updateTransactionStatus.isPending} size="sm" className="bg-success hover:bg-success/90">
-                        {updateTransactionStatus.isPending ? 'Confirming...' : 'Confirm Item Received'}
-                      </Button>
-                    </AlertDescription>
-                  </Alert>
-                )}
-
-                {selectedTransaction && selectedTransaction.status === TransactionStatus.received && (
-                  <Alert className="border-success/50 bg-success/5">
-                    <CheckCircle className="h-4 w-4" />
-                    <AlertTitle>Transaction Complete</AlertTitle>
-                    <AlertDescription>
-                      The buyer has confirmed receipt. {isSeller ? 'Payment has been released to you (minus £1.50 listing fee and 5% commission).' : 'Thank you for your purchase!'}
-                    </AlertDescription>
-                  </Alert>
-                )}
-
-                {selectedTransaction && selectedTransaction.status === TransactionStatus.paymentReleased && (
-                  <Alert className="border-success/50 bg-success/5">
-                    <CheckCircle className="h-4 w-4" />
-                    <AlertTitle>Payment Released</AlertTitle>
-                    <AlertDescription>
-                      {isSeller ? 'Payment has been successfully released to you.' : 'Transaction completed successfully.'}
-                    </AlertDescription>
-                  </Alert>
-                )}
-
-                {!selectedTransaction && (
-                  <Alert className="border-warning/50 bg-warning/5">
-                    <Shield className="h-4 w-4" />
-                    <AlertTitle>Payment Required</AlertTitle>
-                    <AlertDescription>
-                      Messaging is only available after completing payment through our secure platform. This protects both buyers and sellers and ensures commission is collected.
-                    </AlertDescription>
-                  </Alert>
-                )}
-
-                <ScrollArea className="h-[400px] rounded-lg border p-4">
-                  {selectedConversation.length === 0 ? (
-                    <div className="flex h-full flex-col items-center justify-center text-center text-muted-foreground">
-                      {selectedTransaction ? (
-                        <>
-                          <MessageSquare className="mb-3 h-12 w-12 opacity-50" />
-                          <p>Start the conversation</p>
-                        </>
-                      ) : (
-                        <>
-                          <Lock className="mb-3 h-12 w-12 opacity-50" />
-                          <p className="font-medium">Complete payment to unlock messaging</p>
-                          <p className="mt-2 text-sm">All transactions must go through our secure platform</p>
-                        </>
-                      )}
-                    </div>
-                  ) : (
-                    <div className="space-y-4">
-                      {selectedConversation.map((msg) => {
-                        const isMe = msg.sender.toString() === identity.getPrincipal().toString();
-                        return (
-                          <div key={msg.id} className={`flex gap-3 ${isMe ? 'flex-row-reverse' : ''}`}>
-                            <Avatar className="h-8 w-8">
-                              <AvatarFallback>{isMe ? 'You' : 'Them'}</AvatarFallback>
-                            </Avatar>
-                            <div className={`max-w-[70%] rounded-lg p-3 ${isMe ? 'bg-primary text-primary-foreground' : 'bg-muted'}`}>
-                              <p className="text-sm">{msg.content}</p>
-                            </div>
-                          </div>
-                        );
-                      })}
-                    </div>
-                  )}
-                </ScrollArea>
-
-                <div className="flex gap-2">
-                  <Textarea
-                    value={messageText}
-                    onChange={(e) => setMessageText(e.target.value)}
-                    placeholder={selectedTransaction ? "Type your message..." : "Complete payment to unlock messaging..."}
-                    rows={2}
-                    onKeyDown={handleKeyDown}
-                    disabled={!selectedTransaction}
-                  />
-                  <Button
-                    onClick={handleSendClick}
-                    disabled={sendMessage.isPending || !selectedTransaction}
-                  >
-                    <Send className="h-4 w-4" />
-                  </Button>
-                </div>
-              </div>
-            ) : (
-              <div className="flex h-[500px] items-center justify-center text-muted-foreground">
-                Select a conversation to view messages
+        return (
+          <button
+            key={listingId}
+            onClick={() => setSelectedListingId(listingId)}
+            className={`w-full border-b p-4 text-left transition-colors hover:bg-gray-100 ${
+              selectedListingId === listingId ? 'bg-gray-100' : ''
+            }`}
+          >
+            <p className="font-medium">{listing?.title || 'Unknown Listing'}</p>
+            <p className="text-sm text-gray-500">
+              {conversationsByListing.get(listingId)?.length || 0} messages
+            </p>
+            {transaction && (
+              <div className="mt-2">
+                {getStatusBadge(transaction.status)}
               </div>
             )}
-          </CardContent>
-        </Card>
-      </div>
+          </button>
+        );
+      })}
+
+      {conversationsByListing.size === 0 && (
+        <div className="flex h-[500px] flex-col items-center justify-center p-6 text-center text-gray-500">
+          <Lock className="mb-3 h-12 w-12 opacity-50" />
+          <p className="font-medium">No conversations yet</p>
+          <p className="mt-2 text-sm">Complete a purchase to start messaging</p>
+        </div>
+      )}
     </div>
-  );
-}
+  </div>
+</div>
