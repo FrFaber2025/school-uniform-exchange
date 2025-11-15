@@ -64,21 +64,31 @@ export default function PaymentSuccessPage() {
           transactionId={selectedTransaction.id}
           onSuccess={() => setShowReviewModal(false)}
         />
-      )}
-    </div>
-  );
-}
-;
-  <button onClick={() => navigate({ to: '/messages' })}
-  className="border border-gray-300 rounded px-3 py-1 text-sm font-semibold hover:bg-muted"
->
-  View Messages
-</button>
-            <button onClick={() => navigate({ to: '/browse' })}
-  className="border border-gray-300 rounded px-3 py-1 text-sm font-semibold hover:bg-muted"
->
-  Continue Shopping
-</button>
+     {recentTransaction && (
+  <button
+    onClick={() => {
+      setSelectedTransaction(recentTransaction);
+      setShowReviewModal(true);
+    }}
+    className="w-full bg-burgundy text-white font-semibold py-2 px-4 rounded hover:bg-burgundy/90"
+  >
+    Rate Your Experience
+  </button>
+)}
+<div className="space-y-2">
+  <button
+    onClick={() => navigate({ to: '/messages' })}
+    className="border border-gray-300 rounded px-3 py-1 text-sm font-semibold hover:bg-muted"
+  >
+    View Messages
+  </button>
+  <button
+    onClick={() => navigate({ to: '/browse' })}
+    className="border border-gray-300 rounded px-3 py-1 text-sm font-semibold hover:bg-muted"
+  >
+    Continue Shopping
+  </button>
+</div>
   {recentTransaction && (
     <button
       onClick={() => {
