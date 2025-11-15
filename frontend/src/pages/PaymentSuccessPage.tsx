@@ -44,19 +44,14 @@ export default function PaymentSuccessPage() {
   className="border border-gray-300 rounded px-3 py-1 text-sm font-semibold hover:bg-muted"
 >
   View Messages
+<button
+  onClick={() => navigate({ to: '/browse' })}
+  className="border border-gray-300 rounded px-3 py-1 text-sm font-semibold hover:bg-muted"
+>
+  Continue Shopping
 </button>
-          <button
-            onClick={() => navigate({ to: '/browse' })}
-            className="border border-gray-300 rounded px-3 py-1 text-sm font-semibold hover:bg-muted"
-          >
-            Continue Shopping
-          </button>
-            )
-          </div>
-        </div>
-      </div>
 
-      {selectedTransaction && (
+{selectedTransaction && (
   <ReviewSubmissionModal
     open={showReviewModal}
     onOpenChange={setShowReviewModal}
@@ -90,7 +85,7 @@ export default function PaymentSuccessPage() {
   >
     Continue Shopping
   </button>
-</div>
+
   {recentTransaction && (
     <button
       onClick={() => {
@@ -100,15 +95,18 @@ export default function PaymentSuccessPage() {
       className="w-full bg-burgundy text-white font-semibold py-2 px-4 rounded hover:bg-burgundy/90"
     >
       Rate Your Experience
-    {selectedTransaction && (
-        <ReviewSubmissionModal
-          open={showReviewModal}
-          onOpenChange={setShowReviewModal}
-          seller={selectedTransaction.seller}
-          transactionId={selectedTransaction.id}
-          onSuccess={() => setShowReviewModal(false)}
-        />
-      )}
-    </div>
-  );
+    </button>
+  )}
+
+  {selectedTransaction && (
+    <ReviewSubmissionModal
+      open={showReviewModal}
+      onOpenChange={setShowReviewModal}
+      seller={selectedTransaction.seller}
+      transactionId={selectedTransaction.id}
+      onSuccess={() => setShowReviewModal(false)}
+    />
+  )}
+</div>
+);
 }
