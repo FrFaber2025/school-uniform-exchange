@@ -118,7 +118,7 @@ export default function ReturnsRefundsPage() {
     </div>
   </div>
 </div>
-
+</div>
           <div className="mt-6 border-l-4 border-blue-500 bg-blue-50 p-4 rounded">
   <div className="flex items-start gap-2">
     <Info className="h-4 w-4 text-blue-600 mt-0.5" />
